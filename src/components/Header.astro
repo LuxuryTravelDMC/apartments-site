@@ -12,10 +12,15 @@ const here = Astro.url.pathname.replace(/\.html$/, '');
       <EagleMark class="top__mark" />
       {site.name}
     </a>
-    <nav aria-label="Κύριο μενού" class="top__nav">
+    <nav aria-label="Κύριο μενού" class="top__nav" id="main-nav">
       {nav.map((n) => <a href={n.href} aria-current={n.href === here ? 'page' : undefined}>{n.label}</a>)}
     </nav>
-    <a class="btn top__book" href={theme ? '#book' : '/#book'}>Κράτηση</a>
+    <div class="top__right">
+      <a class="btn top__book" href={theme ? '#book' : '/#book'}>Κράτηση</a>
+      <button type="button" class="burger" aria-expanded="false" aria-controls="main-nav" aria-label="Άνοιγμα μενού" data-burger>
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </header>
 <script>
@@ -24,6 +29,19 @@ const here = Astro.url.pathname.replace(/\.html$/, '');
   const onScroll = () => top.classList.toggle('top--scrolled', window.scrollY > 8);
   onScroll();
   window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Phones: the three lines open the menu and turn into an X in the same spot.
+  const burger = top.querySelector<HTMLButtonElement>('[data-burger]')!;
+  const setOpen = (open: boolean) => {
+    top.classList.toggle('top--open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Κλείσιμο μενού' : 'Άνοιγμα μενού');
+    document.documentElement.classList.toggle('menu-open', open);
+  };
+  burger.addEventListener('click', () => setOpen(!top.classList.contains('top--open')));
+  top.querySelectorAll('.top__nav a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && top.classList.contains('top--open')) { setOpen(false); burger.focus(); } });
+  matchMedia('(min-width: 761px)').addEventListener('change', (m) => m.matches && setOpen(false));
 </script>
 <style>
   .top { position: sticky; top: 0; z-index: 50; background: var(--white); color: var(--ink); box-shadow: 0 4px 14px rgb(54 48 43 / .10); transition: box-shadow .2s; }
@@ -37,11 +55,29 @@ const here = Astro.url.pathname.replace(/\.html$/, '');
   .top__nav a:hover { color: var(--pine); }
   .top__nav a[aria-current='page'] { color: var(--pine); box-shadow: inset 0 -3px var(--pine); }
   .top__book { border-radius: 6px; }
-  @media (max-width: 700px) {
-    .top__in { padding-top: 8px; padding-bottom: 4px; gap: 4px 16px; }
+  .top__right { display: flex; align-items: center; gap: 12px; }
+  .burger { display: none; position: relative; width: 48px; height: 48px; border: 0; border-radius: 6px; background: transparent; cursor: pointer; }
+  .burger span { position: absolute; left: 12px; width: 24px; height: 2px; border-radius: 2px; background: var(--ink); transition: transform .35s cubic-bezier(.2,.7,.2,1), opacity .2s, top .35s cubic-bezier(.2,.7,.2,1); }
+  .burger span:nth-child(1) { top: 16px; }
+  .burger span:nth-child(2) { top: 23px; }
+  .burger span:nth-child(3) { top: 30px; }
+  .top--open .burger span:nth-child(1) { top: 23px; transform: rotate(45deg); }
+  .top--open .burger span:nth-child(2) { opacity: 0; }
+  .top--open .burger span:nth-child(3) { top: 23px; transform: rotate(-45deg); }
+  @media (max-width: 760px) {
+    .top__in { flex-wrap: nowrap; padding-top: 8px; padding-bottom: 8px; }
     .top__logo { font-size: 22px; }
     .top__mark { width: 28px; height: 28px; }
-    .top__nav { order: 3; width: 100%; gap: 0 20px; font-size: 15px; overflow-x: auto; flex-wrap: nowrap; white-space: nowrap; }
-    .top__nav a { padding: 8px 0; }
+    .top__book { min-height: 44px; padding: 0 16px; font-size: 15px; }
+    .burger { display: block; }
+    .top__nav { position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; flex-wrap: nowrap; gap: 0; padding: 8px 24px 24px;
+      background: var(--white); box-shadow: 0 18px 30px rgb(54 48 43 / .14); font-size: 22px;
+      opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity .3s, transform .35s cubic-bezier(.2,.7,.2,1), visibility 0s linear .35s; }
+    .top--open .top__nav { opacity: 1; visibility: visible; transform: none; transition: opacity .3s, transform .35s cubic-bezier(.2,.7,.2,1), visibility 0s; }
+    .top__nav a { padding: 14px 0; border-bottom: 1px solid var(--line); box-shadow: none; }
+    .top__nav a:last-child { border-bottom: 0; }
+    .top__nav a[aria-current='page'] { box-shadow: none; }
   }
+  @media (prefers-reduced-motion: reduce) { .burger span, .top__nav { transition: none !important; } }
+  :global(html.menu-open) { overflow: hidden; }
 </style>
