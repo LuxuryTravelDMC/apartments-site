@@ -2,7 +2,7 @@
 // The name must match the project name in the Cloudflare dashboard.
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "stays-site",
+  "name": "apartments-site",
   "compatibility_date": "2026-11-26",
   "assets": {
     // Astro writes the finished site here (npm run build)

@@ -31,6 +31,8 @@ npm run build      # το τελικό site στον φάκελο dist/
 - Build command: `npm run build`
 - Deploy command: `npx wrangler deploy`
 
+Όνομα project στη Cloudflare: `apartments-site` (ίδιο με το `name` στο `wrangler.jsonc`).
+
 Κάθε αλλαγή στο `main` ανεβαίνει αυτόματα.
 
 ## Εκκρεμότητες
