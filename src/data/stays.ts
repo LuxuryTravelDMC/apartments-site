@@ -137,10 +137,14 @@ export const guides = [
   { tag: 'ΠΡΑΚΤΙΚΑ', place: 'both', title: '[Πώς θα έρθετε από το αεροδρόμιο]', text: '[Ταξί, λεωφορείο, ενοικίαση αυτοκινήτου: χρόνοι και κόστος.]' },
 ];
 
-// Real reviews only, copied from Airbnb or Booking with the guest's first name.
-export const reviews = [
-  { text: 'Καθαρό, μοντέρνο περιβάλλον, ευρύχωρο, εύκολο parking, συννενοήσιμοι και διακριτικοί οικοδεσπότες. Το προτείνω ανεπιφύλακτα και θα το ξαναπροτιμήσουμε κι εμείς. Ευχαριστούμε', who: 'Δημήτρης · Booking.com', stay: 'Θεσσαλονίκη' },
-  { text: 'Πολύ καθαρό και προσεγμένο διαμέρισμα σε ήσυχη περιοχή, με ιδιαίτερο design. Ο χώρος είναι όμορφα διαμορφωμένος, ζεστός και πολύ ευχάριστος. Ο πρωινός καφές στο μπαλκόνι ήταν πραγματικά απολαυστικός!', who: 'Apostoloudis · Booking.com', stay: 'Θεσσαλονίκη' },
-  { text: 'Είχαμε μια υπέροχη διαμονή και μείναμε πραγματικά ενθουσιασμένοι με όλα. Οι οικοδεσπότες είναι απίστευτα ευγενικοί, φιλόξενοι και εξυπηρετικοί.', who: 'Dmitriy · Google', stay: 'Χαλκιδική' },
+// Real reviews only, copied from Airbnb, Booking or Google with the guest's first name.
+// short/name/home/score: optional, used by the rotating review card in the homepage collage.
+export const reviews: { text: string; who: string; stay: string; short?: string; name?: string; home?: string; score?: { n: string; of: string; src: string; count: string } }[] = [
+  { text: 'Καθαρό, μοντέρνο περιβάλλον, ευρύχωρο, εύκολο parking, συννενοήσιμοι και διακριτικοί οικοδεσπότες. Το προτείνω ανεπιφύλακτα και θα το ξαναπροτιμήσουμε κι εμείς. Ευχαριστούμε', who: 'Δημήτρης · Booking.com', stay: 'Θεσσαλονίκη',
+    short: 'Καθαρό, μοντέρνο περιβάλλον, ευρύχωρο, εύκολο parking.', name: 'Δημήτρης', home: 'Phoenix Apartment', score: { n: '10', of: '10', src: 'Booking.com', count: '7 κριτικές' } },
+  { text: 'Πολύ καθαρό και προσεγμένο διαμέρισμα σε ήσυχη περιοχή, με ιδιαίτερο design. Ο χώρος είναι όμορφα διαμορφωμένος, ζεστός και πολύ ευχάριστος. Ο πρωινός καφές στο μπαλκόνι ήταν πραγματικά απολαυστικός!', who: 'Apostoloudis · Booking.com', stay: 'Θεσσαλονίκη',
+    short: 'Ο πρωινός καφές στο μπαλκόνι ήταν πραγματικά απολαυστικός!', name: 'Apostoloudis', home: 'Phoenix Apartment', score: { n: '10', of: '10', src: 'Booking.com', count: '7 κριτικές' } },
+  { text: 'Είχαμε μια υπέροχη διαμονή και μείναμε πραγματικά ενθουσιασμένοι με όλα. Οι οικοδεσπότες είναι απίστευτα ευγενικοί, φιλόξενοι και εξυπηρετικοί.', who: 'Dmitriy · Google', stay: 'Χαλκιδική',
+    short: 'Οι οικοδεσπότες είναι απίστευτα ευγενικοί, φιλόξενοι και εξυπηρετικοί.', name: 'Dmitriy', home: 'Nostos Apartment', score: { n: '5', of: '5', src: 'Google', count: '1 κριτική' } },
 ];
 export const ratings = '10/10 στο Booking.com από 7 κριτικές · [Χ,ΧΧ] στο Airbnb';
