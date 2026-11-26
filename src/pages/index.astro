@@ -8,30 +8,58 @@ import Eagle3D from '../components/Eagle3D.astro';
 import Blueprint from '../components/Blueprint.astro';
 import { site } from '../data/site';
 import { stays, guides, ratings, reviews } from '../data/stays';
-const heroReviews = reviews.filter((r) => r.short && r.score);
+const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score && r.stay === place);
 ---
 <Base title={`${site.name} · Διαμερίσματα σε Θεσσαλονίκη και Χαλκιδική`}>
   <section class="wrap hero">
     <div class="hero__text">
       <div class="label">Θεσσαλονίκη · Χαλκιδική</div>
-      <h1 class="hero__title">Πόλη και θάλασσα.</h1>
+      <h1 class="hero__title"><span class="hw" data-word="0">Πόλη</span> και <span class="hw" data-word="1">θάλασσα</span>.</h1>
       <p class="hero__lead">Δύο διαμερίσματα, ένα στη Θεσσαλονίκη κι ένα στη Χαλκιδική. Κλείστε απευθείας με τον ιδιοκτήτη.</p>
       <div class="hero__cta"><a class="btn btn--dark" href="#stays">Δείτε τα σπίτια</a><a class="hero__link" href="#book">Ελέγξτε διαθεσιμότητα →</a></div>
     </div>
-    <div class="collage">
-      <div class="collage__photo"><Photo name={site.heroPhoto} alt="Το υπνοδωμάτιο του Phoenix Apartment στη Θεσσαλονίκη" eager sizes="(max-width: 900px) 100vw, 760px" /></div>
-      <div class="collage__bp"><Blueprint sync /></div>
-      <div class="collage__review" data-rotate aria-live="off" aria-label="Κριτικές επισκεπτών">
-        {heroReviews.map((r, i) => (
-          <figure class="rq" data-on={i === 0 ? 'true' : 'false'} aria-hidden={i === 0 ? 'false' : 'true'}>
-            <div class="collage__score"><b>{r.score!.n}</b><span>/{r.score!.of} · {r.score!.src}<br />{r.score!.count}</span></div>
-            <blockquote>«{r.short}»</blockquote>
-            <figcaption>{r.name}, {r.home}</figcaption>
-          </figure>
+    <div class="hs" data-hs data-active="0">
+      <div class="hs__tabs" role="tablist" aria-label="Διαλέξτε σπίτι">
+        {stays.map((st, i) => (
+          <button type="button" role="tab" class:list={['hs__tab', `hs__tab--${st.theme}`]} id={`hs-tab-${i}`} aria-controls={`hs-panel-${i}`} aria-selected={i === 0 ? 'true' : 'false'} data-hs-tab={i} data-slug={st.slug}>
+            <span class="hs__place">{st.place}</span><span class="hs__name">{st.title}</span>
+          </button>
         ))}
-        <div class="rq__dots" aria-hidden="true">{heroReviews.map((_, i) => <span data-on={i === 0 ? 'true' : 'false'}></span>)}</div>
       </div>
       <div class="collage__eagle"><Eagle3D /></div>
+      {stays.map((st, i) => {
+        const rs = reviewsFor(st.place);
+        const photo = st.photos[0];
+        return (
+          <div class:list={['collage', `collage--${st.theme}`, !st.size && 'collage--nobp']} role="tabpanel" id={`hs-panel-${i}`} aria-labelledby={`hs-tab-${i}`} data-hs-panel={i}>
+            <div class="collage__photo"><Photo name={photo.name} alt={`${st.title}: ${photo.alt}`} eager={i === 0} sizes="(max-width: 900px) 100vw, 760px" /></div>
+            {st.size ? (
+              <div class="collage__bp"><Blueprint name={st.title} size={st.size} sync /></div>
+            ) : (
+              <div class="collage__info">
+                <div class="collage__info-t">{st.title}</div>
+                <p>{st.short}</p>
+                <div class="tagrow">{st.tags.filter((t) => !t.startsWith('[')).map((t) => <span class="chip">{t}</span>)}</div>
+              </div>
+            )}
+            <a class="collage__price" href={`/${st.slug}`}>
+              <span>από</span><b>{st.priceFrom} €</b><span>/ βράδυ · {st.area} →</span>
+            </a>
+            {rs.length > 0 && (
+              <div class="collage__review" data-rotate aria-live="off" aria-label={`Κριτικές για το ${st.title}`}>
+                {rs.map((r, j) => (
+                  <figure class="rq" data-on={j === 0 ? 'true' : 'false'} aria-hidden={j === 0 ? 'false' : 'true'}>
+                    <div class="collage__score"><b>{r.score!.n}</b><span>/{r.score!.of} · {r.score!.src}<br />{r.score!.count}</span></div>
+                    <blockquote>«{r.short}»</blockquote>
+                    <figcaption>{r.name}, {r.home}</figcaption>
+                  </figure>
+                ))}
+                {rs.length > 1 && <div class="rq__dots" aria-hidden="true">{rs.map((_, j) => <span data-on={j === 0 ? 'true' : 'false'}></span>)}</div>}
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
     <BookingBox layout="bar" />
   </section>
@@ -90,6 +118,28 @@ const heroReviews = reviews.filter((r) => r.short && r.score);
   </section>
 </Base>
 <script>
+  // Hero switch: the buttons swap the whole collage between the two homes,
+  // highlight the matching word of the title and preselect the booking box.
+  document.querySelectorAll<HTMLElement>('[data-hs]').forEach((hs) => {
+    const tabs = [...hs.querySelectorAll<HTMLButtonElement>('[data-hs-tab]')];
+    const show = (i: number) => {
+      hs.dataset.active = String(i);
+      document.querySelector<HTMLElement>('.hero__title')?.setAttribute('data-active', String(i));
+      tabs.forEach((t, j) => t.setAttribute('aria-selected', String(i === j)));
+      const sel = document.querySelector<HTMLSelectElement>('#book select[name=stay]');
+      if (sel && tabs[i].dataset.slug) sel.value = tabs[i].dataset.slug!;
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => show(i));
+      t.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        const j = (i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+        show(j); tabs[j].focus();
+      });
+    });
+    show(0);
+  });
+
   // The review card in the photo collage: next review every 5 seconds,
   // stays still while the mouse is over it (or it has keyboard focus).
   document.querySelectorAll<HTMLElement>('[data-rotate]').forEach((box) => {
@@ -117,7 +167,31 @@ const heroReviews = reviews.filter((r) => r.short && r.score);
   .hero__lead { max-width: 560px; font-size: 20px; color: var(--ink-2); }
   .hero__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin: 28px 0 48px; }
   .hero__link { color: var(--ink); font-weight: 500; }
+  .hs { position: relative; }
+  .hs__tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; position: relative; z-index: 4; }
+  .hs__tab { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-height: 56px; padding: 10px 20px; border-radius: 6px; border: 1.5px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer; font-family: var(--sans); text-align: left; transition: background .25s, color .25s; }
+  .hs__tab:hover { background: rgb(54 48 43 / .06); }
+  .hs__place { font-size: 20px; font-weight: 600; letter-spacing: -0.02em; }
+  .hs__name { font-size: 13px; opacity: .8; }
+  .hs__tab--city[aria-selected='true'] { background: var(--honey) url('/paper.svg'); border-color: var(--honey); }
+  .hs__tab--sea[aria-selected='true'] { background: var(--pine) url('/paper.svg'); border-color: var(--pine); color: var(--white); }
+  .hs [data-hs-panel] { display: none; }
+  .hs[data-active='0'] [data-hs-panel='0'], .hs[data-active='1'] [data-hs-panel='1'] { display: block; animation: hsIn .5s ease; }
+  @keyframes hsIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .hs [data-hs-panel] { animation: none !important; } }
+  .hw { transition: color .3s, box-shadow .3s; }
+  .hero__title[data-active='0'] .hw[data-word='0'] { box-shadow: inset 0 -.12em var(--honey); }
+  .hero__title[data-active='1'] .hw[data-word='1'] { box-shadow: inset 0 -.12em var(--pine); }
   .collage { position: relative; height: 620px; }
+  .collage__info { position: absolute; left: 0; top: 150px; width: 42%; z-index: 2; padding: 28px; border-radius: 6px; background: var(--pine) url('/paper.svg'); color: var(--white); box-shadow: 0 18px 40px rgb(36 94 64 / .25); display: flex; flex-direction: column; gap: 14px; }
+  .collage__info-t { font-size: 32px; font-weight: 600; letter-spacing: -0.03em; }
+  .collage__info .chip { background: rgb(255 255 255 / .16); color: var(--white); }
+  .collage__price { position: absolute; left: calc(42% + 20px); bottom: 24px; z-index: 3; display: flex; flex-direction: column; padding: 16px 20px; border-radius: 6px; background: var(--honey) url('/paper.svg'); color: var(--ink); text-decoration: none; box-shadow: 0 18px 40px rgb(54 48 43 / .2); }
+  .collage--sea .collage__price { background-color: var(--white); }
+  .collage__price:hover { color: var(--ink); transform: translateY(-2px); }
+  .collage__price span { font-size: 13px; }
+  .collage__price span:first-child { text-transform: uppercase; letter-spacing: .06em; }
+  .collage__price b { font-size: 36px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; }
   .collage__photo { position: absolute; right: 0; top: 0; width: 66%; height: 500px; }
   .collage__photo > :global(*) { height: 100%; }
   .collage__bp { position: absolute; left: 0; top: 150px; width: 42%; z-index: 2; box-shadow: 0 18px 40px rgb(36 94 64 / .25); }
@@ -132,7 +206,7 @@ const heroReviews = reviews.filter((r) => r.short && r.score);
   .collage__score b { font-size: 40px; font-weight: 600; color: var(--ink); letter-spacing: -0.03em; }
   .collage__review blockquote { margin: 12px 0 8px; font-size: 18px; line-height: 1.35; }
   .collage__review figcaption { font-size: 13px; color: var(--ink-2); }
-  .collage__eagle { position: absolute; left: 4%; top: -24px; width: 150px; z-index: 1; }
+  .collage__eagle { position: absolute; left: 4%; top: 64px; width: 150px; z-index: 1; }
   .hero :global(.book--bar) { margin-top: 40px; margin-left: 0; margin-right: 0; }
   .big { font-size: clamp(44px, 6vw, 80px); }
   .big sup { font-size: .3em; font-weight: 500; vertical-align: top; margin-left: 4px; color: var(--ink-2); }
@@ -147,7 +221,8 @@ const heroReviews = reviews.filter((r) => r.short && r.score);
   .block__links a:hover span { color: var(--white); }
   @media (max-width: 900px) {
     .collage { height: auto; display: flex; flex-direction: column; gap: 16px; }
-    .collage__photo, .collage__bp, .collage__review { position: static; width: 100%; }
+    .hs[data-active='0'] [data-hs-panel='0'], .hs[data-active='1'] [data-hs-panel='1'] { display: flex; }
+    .collage__photo, .collage__bp, .collage__review, .collage__info, .collage__price { position: static; width: 100%; }
     .collage__photo { height: 320px; }
     .collage__eagle { display: none; }
   }
