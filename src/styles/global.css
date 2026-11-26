@@ -16,27 +16,29 @@
   --coral: #C24F2B;       /* Μόνο μικρές πινελιές: «Νέο», αστεράκια */
   --white: #FFFFFF;
 
-  --serif: 'Alegreya', Georgia, serif;
-  --sans: 'Alegreya Sans', system-ui, sans-serif;
+  /* Editorial: one clean sans for everything */
+  --serif: 'Inter Tight', system-ui, sans-serif;
+  --sans: 'Inter Tight', system-ui, sans-serif;
   --radius: 6px;
   --btn-radius: 6px;
   --max: 1280px;
   --section: 104px;
 }
 /* Per apartment: Thessaloniki straight, Chalkidiki round */
-[data-theme='city'] { --btn-radius: 0; }
-[data-theme='sea'] { --btn-radius: 999px; --radius: 16px; }
+[data-theme='city'] { --btn-radius: 6px; }
+[data-theme='sea'] { --btn-radius: 6px; --radius: 6px; }
 
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 [id] { scroll-margin-top: 96px; } /* so the sticky menu does not cover the heading */
-body { margin: 0; background: var(--bg); color: var(--ink); font: 18px/1.55 var(--sans); }
+body { margin: 0; background: var(--bg) url('/paper.svg'); color: var(--ink); font: 17px/1.6 var(--sans); }
 img { max-width: 100%; display: block; }
 a { color: var(--pine); }
 a:hover { color: var(--pine-hover); }
-h1, h2, h3 { font-family: var(--serif); line-height: 1.15; margin: 0; }
-h2 { font-weight: 700; font-size: 40px; }
-h3 { font-weight: 500; font-size: 28px; }
+h1, h2, h3 { font-family: var(--serif); line-height: 1.05; margin: 0; letter-spacing: -0.025em; font-style: normal; }
+h1 { font-weight: 600; }
+h2 { font-weight: 600; font-size: 44px; }
+h3 { font-weight: 500; font-size: 26px; letter-spacing: -0.015em; }
 p { margin: 0; }
 
 .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
@@ -45,20 +47,23 @@ p { margin: 0; }
 .band--gray { background: var(--gray-light); }
 .band--honey { background: var(--honey-light); }
 .band--pine { background: var(--pine-light); }
-.label { font-weight: 700; font-size: 14px; letter-spacing: .12em; color: var(--pine); text-transform: uppercase; }
+.label { display: inline-block; font-weight: 500; font-size: 13px; letter-spacing: .06em; color: var(--ink); text-transform: uppercase; }
+.label::before { content: '/'; color: var(--pine); margin-right: 4px; }
 .muted { color: var(--ink-2); }
 .small { font-size: 15px; }
 .head { margin: 8px 0 32px; }
 
 .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px;
-  border: 0; border-radius: var(--btn-radius); background: var(--pine); color: var(--white);
+  border: 0; border-radius: 6px; background: var(--pine); color: var(--white);
   font: 700 17px var(--sans); text-decoration: none; cursor: pointer; }
 .btn:hover { background: var(--pine-hover); color: var(--white); }
 .btn--honey { background: var(--honey); color: var(--ink); }
 .btn--honey:hover { background: var(--honey-dark); color: var(--ink); }
 .btn--ghost { background: var(--white); color: var(--ink); border: 1px solid var(--ink); }
 .btn--ghost:hover { background: var(--gray-light); color: var(--ink); }
-.chip { display: inline-block; padding: 6px 14px; border: 1px solid var(--gray-warm); border-radius: 999px; font-size: 14px; }
+.chip { display: inline-block; padding: 6px 12px; border: 0; border-radius: 6px; background: var(--gray-light); font-size: 14px; }
+.btn--dark { background: var(--ink); color: var(--white); }
+.btn--dark:hover { background: #1F1C1A; color: var(--white); }
 .chip--new { border: 0; background: var(--coral); color: var(--white); padding: 2px 12px; }
 
 .field { display: flex; flex-direction: column; gap: 6px; font-size: 15px; min-width: 0; }
