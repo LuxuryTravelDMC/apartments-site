@@ -20,7 +20,7 @@ const heroReviews = reviews.filter((r) => r.short && r.score);
     </div>
     <div class="collage">
       <div class="collage__photo"><Photo name={site.heroPhoto} alt="Το υπνοδωμάτιο του Phoenix Apartment στη Θεσσαλονίκη" eager sizes="(max-width: 900px) 100vw, 760px" /></div>
-      <div class="collage__bp"><Blueprint /></div>
+      <div class="collage__bp"><Blueprint sync /></div>
       <div class="collage__review" data-rotate aria-live="off" aria-label="Κριτικές επισκεπτών">
         {heroReviews.map((r, i) => (
           <figure class="rq" data-on={i === 0 ? 'true' : 'false'} aria-hidden={i === 0 ? 'false' : 'true'}>
@@ -106,6 +106,7 @@ const heroReviews = reviews.filter((r) => r.short && r.score);
       cur = (cur + 1) % items.length;
       items.forEach((el, i) => { el.dataset.on = String(i === cur); el.setAttribute('aria-hidden', String(i !== cur)); });
       dots.forEach((d, i) => (d.dataset.on = String(i === cur)));
+      document.dispatchEvent(new CustomEvent('collage:tick'));
     }, 5000);
   });
 </script>
