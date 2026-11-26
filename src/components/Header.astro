@@ -14,15 +14,18 @@ const { theme } = Astro.props;
   </div>
 </header>
 <style>
-  .top { border-bottom: 1px solid var(--line); }
-  .top--city { background: var(--ink); border-color: var(--ink); }
+  /* sticky: the menu stays at the top while scrolling */
+  .top { position: sticky; top: 0; z-index: 50; background: var(--bg); border-bottom: 1px solid var(--line); }
+  .top--city { background: var(--honey-light); }
   .top--sea { background: var(--pine-light); }
   .top__in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-top: 14px; padding-bottom: 14px; }
   .top__logo { font: 700 24px var(--serif); color: var(--ink); text-decoration: none; }
   .top__nav { display: flex; flex-wrap: wrap; gap: 4px 28px; font-size: 17px; }
   .top__nav a { color: var(--ink); text-decoration: none; padding: 10px 0; }
   .top__nav a:hover { color: var(--pine); }
-  .top--city .top__logo, .top--city .top__nav a { color: var(--white); }
-  .top--city .top__nav a:hover { color: var(--honey); }
-  @media (max-width: 700px) { .top__nav { order: 3; width: 100%; gap: 0 20px; font-size: 16px; } }
+  @media (max-width: 700px) {
+    .top__in { padding-top: 8px; padding-bottom: 4px; gap: 4px 16px; }
+    .top__nav { order: 3; width: 100%; gap: 0 18px; font-size: 15px; overflow-x: auto; flex-wrap: nowrap; white-space: nowrap; }
+    .top__nav a { padding: 8px 0; }
+  }
 </style>

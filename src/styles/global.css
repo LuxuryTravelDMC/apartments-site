@@ -1,17 +1,19 @@
 /* Design kit «Πεύκο, μέλι και γκρι». Colors at the top: change here, changes everywhere. */
 :root {
-  --bg: #F7F5F0;          /* Φόντο σελίδας */
-  --gray-light: #E8E5DF;  /* Φόντο ενοτήτων */
-  --line: #D6D2CA;        /* Περιγράμματα καρτών */
-  --gray-warm: #8E877C;   /* Γραμμές, πεδία. Όχι κείμενο */
-  --ink: #34363A;         /* Κείμενα, footer, Θεσσαλονίκη */
-  --ink-2: #5A5C60;       /* Δευτερεύον κείμενο */
-  --pine: #3F6B4A;        /* Κουμπιά, links */
-  --pine-hover: #335A3D;
-  --honey: #D9A441;       /* Ετικέτες, Θεσσαλονίκη */
-  --honey-dark: #B5841F;  /* Αστεράκια */
-  --pine-light: #DCE6D8;  /* Ενότητα Χαλκιδικής */
-  --honey-light: #F3E6C9; /* Ενότητα άρθρων */
+  /* Παλέτα «Πεύκο και μέλι», ζεστή εκδοχή */
+  --bg: #FBF7F0;          /* Κρεμ φόντο σελίδας */
+  --gray-light: #F3EADB;  /* Άμμος: φόντο ενοτήτων και θέσεων φωτογραφιών */
+  --line: #E6DCCB;        /* Περιγράμματα καρτών */
+  --gray-warm: #9A8B76;   /* Γραμμές, πεδία φόρμας. Όχι κείμενο */
+  --ink: #36302B;         /* Κείμενα, footer */
+  --ink-2: #6A625A;       /* Δευτερεύον κείμενο */
+  --pine: #2E7550;        /* Κουμπιά, links, Χαλκιδική */
+  --pine-hover: #245E40;
+  --honey: #E9A92F;       /* Μέλι: Θεσσαλονίκη, ετικέτες */
+  --honey-dark: #D9961A;  /* Μέλι hover */
+  --pine-light: #E2EEDA;  /* Φόντο Χαλκιδικής */
+  --honey-light: #FBEBC4; /* Φόντο Θεσσαλονίκης και άρθρων */
+  --coral: #C24F2B;       /* Μόνο μικρές πινελιές: «Νέο», αστεράκια */
   --white: #FFFFFF;
 
   --serif: 'Alegreya', Georgia, serif;
@@ -27,6 +29,7 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+[id] { scroll-margin-top: 96px; } /* so the sticky menu does not cover the heading */
 body { margin: 0; background: var(--bg); color: var(--ink); font: 18px/1.55 var(--sans); }
 img { max-width: 100%; display: block; }
 a { color: var(--pine); }
@@ -56,7 +59,7 @@ p { margin: 0; }
 .btn--ghost { background: var(--white); color: var(--ink); border: 1px solid var(--ink); }
 .btn--ghost:hover { background: var(--gray-light); color: var(--ink); }
 .chip { display: inline-block; padding: 6px 14px; border: 1px solid var(--gray-warm); border-radius: 999px; font-size: 14px; }
-.chip--new { border: 0; background: var(--honey); color: var(--ink); padding: 2px 12px; }
+.chip--new { border: 0; background: var(--coral); color: var(--white); padding: 2px 12px; }
 
 .field { display: flex; flex-direction: column; gap: 6px; font-size: 15px; min-width: 0; }
 .field input, .field select { height: 48px; padding: 0 12px; border: 1px solid var(--gray-warm); border-radius: var(--radius);

@@ -9,7 +9,7 @@ Static Astro site, Greek only for now, hosted on Cloudflare Workers with static 
 ## Structure
 - All content is in `src/data/site.ts` and `src/data/stays.ts`. Placeholders are in [BRACKETS]; never invent facts, prices or reviews.
 - Each apartment has a `theme`: `city` (Thessaloniki: charcoal + honey, square buttons) or `sea` (Chalkidiki: light pine, pill buttons). Set via `data-theme` on `<body>`.
-- Design tokens (kit «Πεύκο, μέλι και γκρι») at the top of `src/styles/global.css`. Fonts: Alegreya (headings) and Alegreya Sans (text), via @fontsource.
+- Brand "Black Bird". Design tokens (warm version of kit «Πεύκο, μέλι και γκρι»: cream/sand neutrals, pine #2E7550, honey #E9A92F, coral #C24F2B for small accents only) at the top of `src/styles/global.css`. Fonts: Alegreya (headings) and Alegreya Sans (text), via @fontsource.
 - Booking box (`src/components/BookingBox.astro`): uses `bookingEngineUrl` when set, otherwise a prefilled mailto.
 - Hidden from search: `hideFromSearch` in site.ts plus `public/_headers`. Don't use robots.txt Disallow.
 - Check layouts at 1440 px and 390 px; nothing may scroll sideways on a phone.

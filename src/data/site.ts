@@ -2,7 +2,7 @@
 // Change them here once and every page updates.
 // Everything in [BRACKETS] is still to be filled in.
 export const site = {
-  name: '[ΤΟ ΟΝΟΜΑ ΣΟΥ]',
+  name: 'Black Bird',
   url: 'https://example.com',
   description: 'Δύο διαμερίσματα, ένα στη Θεσσαλονίκη κι ένα στη Χαλκιδική. Κλείστε απευθείας με τον ιδιοκτήτη.',
   email: '[EMAIL]',
