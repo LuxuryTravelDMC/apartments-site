@@ -1,10 +1,11 @@
 ---
 import { factsLine, type Stay } from '../data/stays';
+import Photo from './Photo.astro';
 interface Props { stay: Stay }
 const { stay: s } = Astro.props;
 ---
 <article class:list={['card', `card--${s.theme}`]}>
-  <div class="photo card__photo" role="img" aria-label={`Θέση για φωτογραφία: ${s.place}`}>Φωτογραφία: {s.place}</div>
+  <a href={`/${s.slug}`} class="card__photo" tabindex="-1"><Photo name={s.cardPhoto} alt={`${s.title}, ${s.place}`} sizes="(max-width: 760px) 100vw, 620px" /></a>
   <div class="card__body">
     <div class="card__top">
       <span class="label">{s.place} · {s.area}</span>
@@ -23,7 +24,8 @@ const { stay: s } = Astro.props;
   .card { background: var(--white); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; display: flex; flex-direction: column; }
   .card--sea { background: var(--pine-light); }
   .card--sea .label { color: var(--pine-hover); }
-  .card__photo { height: 340px; border-radius: 0; }
+  .card__photo { display: block; height: 340px; text-decoration: none; }
+  .card__photo > :global(*) { height: 100%; border-radius: 0; }
   .card__body { padding: 32px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
   .card__top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .card h3 a { color: var(--ink); text-decoration: none; }

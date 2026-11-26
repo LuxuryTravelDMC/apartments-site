@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import StayCard from '../components/StayCard.astro';
 import BookingBox from '../components/BookingBox.astro';
+import Photo from '../components/Photo.astro';
 import { site } from '../data/site';
 import { stays, guides, reviews, ratings } from '../data/stays';
 ---
@@ -10,7 +11,7 @@ import { stays, guides, reviews, ratings } from '../data/stays';
     <div class="label">Θεσσαλονίκη · Χαλκιδική</div>
     <h1 class="hero__title">Πόλη και θάλασσα</h1>
     <p class="hero__lead muted">Δύο διαμερίσματα, ένα στη Θεσσαλονίκη κι ένα στη Χαλκιδική. Κλείστε απευθείας με τον ιδιοκτήτη.</p>
-    <div class="photo hero__photo" role="img" aria-label="Θέση για κεντρική φωτογραφία">Φωτογραφία: η καλύτερη λήψη από τα δύο διαμερίσματα</div>
+    <div class="hero__photo"><Photo name={site.heroPhoto} alt="Το υπνοδωμάτιο του Phoenix Apartment στη Θεσσαλονίκη" eager sizes="(max-width: 1280px) 100vw, 1232px" /></div>
     <BookingBox layout="bar" />
   </section>
 
@@ -70,6 +71,7 @@ import { stays, guides, reviews, ratings } from '../data/stays';
   .hero__title { font-style: italic; font-weight: 500; font-size: clamp(56px, 9vw, 120px); line-height: 1; margin: 8px 0 16px; }
   .hero__lead { max-width: 620px; margin-bottom: 40px; }
   .hero__photo { height: 520px; }
+  .hero__photo > :global(img) { object-position: 50% 15%; }
   .stays { display: grid; gap: 32px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
   .why h3 { font-size: 24px; margin-bottom: 8px; }
   .review { margin: 0; padding: 28px; background: var(--white); border: 1px solid var(--line); border-radius: 6px; }

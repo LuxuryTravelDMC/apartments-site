@@ -1,0 +1,53 @@
+{
+  "thessaloniki/balcony": {
+    "widths": [
+      480,
+      613
+    ],
+    "ratio": 0.7982
+  },
+  "thessaloniki/bathroom": {
+    "widths": [
+      480,
+      552
+    ],
+    "ratio": 0.7188
+  },
+  "thessaloniki/bedroom-art": {
+    "widths": [
+      480,
+      960,
+      1024
+    ],
+    "ratio": 1.4342
+  },
+  "thessaloniki/bedroom-wardrobe": {
+    "widths": [
+      480,
+      612
+    ],
+    "ratio": 0.7969
+  },
+  "thessaloniki/bedroom": {
+    "widths": [
+      480,
+      960,
+      1024
+    ],
+    "ratio": 1.4402
+  },
+  "thessaloniki/dining": {
+    "widths": [
+      480,
+      855
+    ],
+    "ratio": 1.1133
+  },
+  "thessaloniki/kitchen": {
+    "widths": [
+      480,
+      742
+    ],
+    "ratio": 0.9661
+  }
+}

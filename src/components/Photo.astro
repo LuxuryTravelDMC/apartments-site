@@ -1,0 +1,20 @@
+---
+// A photo from photos/ (name = "folder/file" without extension), or a grey
+// placeholder with its label when there is no photo yet.
+import images from '../data/images.json';
+interface Props { name?: string; alt: string; sizes?: string; class?: string; eager?: boolean }
+const { name, alt, sizes = '100vw', class: cls, eager = false } = Astro.props;
+const meta = name ? (images as Record<string, { widths: number[]; ratio: number }>)[name] : undefined;
+---
+{meta ? (
+  <img class:list={['pic', cls]} alt={alt} sizes={sizes}
+    src={`/img/${name}-${meta.widths.at(-1)}.webp`}
+    srcset={meta.widths.map((w) => `/img/${name}-${w}.webp ${w}w`).join(', ')}
+    width={meta.widths.at(-1)} height={Math.round(meta.widths.at(-1)! / meta.ratio)}
+    loading={eager ? 'eager' : 'lazy'} decoding="async" />
+) : (
+  <div class:list={['photo', cls]} role="img" aria-label={`Θέση για φωτογραφία: ${alt}`}>{alt}</div>
+)}
+<style>
+  .pic { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); background: var(--gray-light); }
+</style>

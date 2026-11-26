@@ -2,6 +2,7 @@
 // One page per apartment: /thessaloniki, /chalkidiki (from src/data/stays.ts).
 import Base from '../layouts/Base.astro';
 import BookingBox from '../components/BookingBox.astro';
+import Photo from '../components/Photo.astro';
 import { site } from '../data/site';
 import { stays, factsLine, type Stay } from '../data/stays';
 
@@ -10,7 +11,9 @@ export function getStaticPaths() {
 }
 const { stay: s } = Astro.props as { stay: Stay };
 const other = stays.find((o) => o.slug !== s.slug);
-const [big, ...small] = s.photos;
+const [big, ...rest] = s.photos;
+const small = rest.slice(0, 4);
+const real = s.photos.filter((p) => p.name);
 ---
 <Base title={`${s.title} · ${site.name}`} description={s.short} theme={s.theme}>
   <section class="wrap" style="padding-top: 40px">
@@ -22,9 +25,16 @@ const [big, ...small] = s.photos;
       {s.isNew && <span class="chip chip--new">Νέο</span>}
     </div>
     <div class="gallery">
-      <div class="photo gallery__big" role="img" aria-label={`Θέση για φωτογραφία: ${big}`}>{big}</div>
-      {small.map((p) => <div class="photo" role="img" aria-label={`Θέση για φωτογραφία: ${p}`}>{p}</div>)}
+      <div class="gallery__big"><Photo name={big.name} alt={big.alt} eager sizes="(max-width: 700px) 100vw, 640px" /></div>
+      {small.map((p) => <div class="gallery__cell"><Photo name={p.name} alt={p.alt} sizes="(max-width: 700px) 50vw, 320px" /></div>)}
+      {real.length > 1 && <button type="button" class="btn btn--ghost gallery__all" data-open="all-photos">Όλες οι φωτογραφίες ({real.length})</button>}
     </div>
+    {real.length > 1 && (
+      <dialog id="all-photos" class="all" aria-label="Όλες οι φωτογραφίες">
+        <form method="dialog"><button class="btn all__close">Κλείσιμο ✕</button></form>
+        <div class="all__grid">{real.map((p) => <figure><Photo name={p.name} alt={p.alt} sizes="(max-width: 700px) 100vw, 600px" /><figcaption class="small">{p.alt}</figcaption></figure>)}</div>
+      </dialog>
+    )}
   </section>
 
   <section class="wrap split" style="padding-top: 56px">
@@ -64,7 +74,7 @@ const [big, ...small] = s.photos;
     <section class="wrap section">
       <h2 class="sub">Δείτε και το άλλο μας διαμέρισμα</h2>
       <a href={`/${other.slug}`} class:list={['other', `other--${other.theme}`]}>
-        <div class="photo other__photo" role="img" aria-label={`Θέση για φωτογραφία: ${other.place}`}>Φωτογραφία: {other.place}</div>
+        <div class="other__photo"><Photo name={other.cardPhoto} alt={`Φωτογραφία: ${other.place}`} sizes="(max-width: 700px) 100vw, 420px" /></div>
         <div class="other__body">
           <div class="label">{other.place} · {other.area}</div>
           <div class="other__t">{other.title}</div>
@@ -74,12 +84,27 @@ const [big, ...small] = s.photos;
     </section>
   )}
 </Base>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-open]').forEach((b) =>
+    b.addEventListener('click', () => (document.getElementById(b.dataset.open!) as HTMLDialogElement)?.showModal()));
+</script>
 <style>
   .title { font-weight: 700; font-size: clamp(38px, 5vw, 56px); margin: 8px 0; }
   .title--sea { font-style: italic; font-weight: 500; font-size: clamp(48px, 7vw, 96px); line-height: 1.05; }
   .facts { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
   .gallery { margin-top: 32px; display: grid; gap: 12px; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: 240px 240px; }
+  .gallery { position: relative; }
+  .gallery > div { min-height: 0; }
+  .gallery > div > :global(*) { height: 100%; }
   .gallery__big { grid-column: span 2; grid-row: span 2; }
+  .gallery__all { position: absolute; right: 12px; bottom: 12px; min-height: 44px; font-size: 15px; }
+  .all { width: min(1100px, 94vw); max-height: 90vh; border: 0; border-radius: var(--radius); padding: 24px; background: var(--bg); }
+  .all::backdrop { background: rgb(52 54 58 / .8); }
+  .all form { display: flex; justify-content: flex-end; margin-bottom: 16px; }
+  .all__grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+  .all figure { margin: 0; }
+  .all figure :global(img) { height: auto; aspect-ratio: auto; }
+  .all figcaption { margin-top: 6px; color: var(--ink-2); }
   [data-theme='city'] .gallery .photo, [data-theme='city'] .photo { border-radius: 0; }
   .sub { font-size: 30px; margin-bottom: 16px; }
   .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
@@ -91,7 +116,8 @@ const [big, ...small] = s.photos;
   .other { display: flex; flex-wrap: wrap; border-radius: 6px; overflow: hidden; color: var(--ink); text-decoration: none; border: 1px solid var(--line); background: var(--white); }
   .other--sea { background: var(--pine-light); }
   .other:hover { color: var(--ink); border-color: var(--gray-warm); }
-  .other__photo { flex: 1 1 320px; height: 260px; border-radius: 0; }
+  .other__photo { flex: 1 1 320px; height: 260px; }
+  .other__photo > :global(*) { height: 100%; border-radius: 0; }
   .other__body { flex: 999 1 360px; padding: 32px; display: flex; flex-direction: column; justify-content: center; gap: 8px; }
   .other__t { font: 500 28px var(--serif); }
   @media (max-width: 700px) {

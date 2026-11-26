@@ -58,9 +58,9 @@ p { margin: 0; }
 .chip { display: inline-block; padding: 6px 14px; border: 1px solid var(--gray-warm); border-radius: 999px; font-size: 14px; }
 .chip--new { border: 0; background: var(--honey); color: var(--ink); padding: 2px 12px; }
 
-.field { display: flex; flex-direction: column; gap: 6px; font-size: 15px; }
+.field { display: flex; flex-direction: column; gap: 6px; font-size: 15px; min-width: 0; }
 .field input, .field select { height: 48px; padding: 0 12px; border: 1px solid var(--gray-warm); border-radius: var(--radius);
-  background: var(--white); font: 17px var(--sans); color: var(--ink); width: 100%; }
+  background: var(--white); font: 17px var(--sans); color: var(--ink); width: 100%; min-width: 0; }
 [data-theme='city'] .field input, [data-theme='city'] .field select { border-radius: 0; }
 [data-theme='sea'] .field input, [data-theme='sea'] .field select { border-radius: 6px; }
 .field input:focus, .field select:focus { outline: none; border: 2px solid var(--pine); }

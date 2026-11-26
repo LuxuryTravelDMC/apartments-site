@@ -22,7 +22,10 @@ export interface Stay {
   amenities: string[];
   rules: { label: string; value: string }[];
   ama: string;
-  photos: string[]; // labels for the photo slots, first one is the big one
+  // Photos: name = file in photos/<folder>/ without extension (run npm run images).
+  // Without a name the slot shows a grey placeholder with the text. First = the big one.
+  photos: { name?: string; alt: string }[];
+  cardPhoto?: string; // photo for the card on the homepage
   nearby: { name: string; time: string }[];
   mapQuery: string;
   links: { airbnb: string; booking: string; vrbo: string };
@@ -53,7 +56,16 @@ export const stays: Stay[] = [
       { label: 'Ακύρωση', value: '[ΠΟΛΙΤΙΚΗ ΑΚΥΡΩΣΗΣ]' },
     ],
     ama: '00003851528',
-    photos: ['Σαλόνι', 'Υπνοδωμάτιο', 'Κουζίνα', 'Μπάνιο', 'Μπαλκόνι'],
+    photos: [
+      { name: 'thessaloniki/bedroom', alt: 'Υπνοδωμάτιο με διπλό κρεβάτι και πίνακα με δέντρο' },
+      { name: 'thessaloniki/dining', alt: 'Τραπεζαρία δίπλα στην κουζίνα' },
+      { name: 'thessaloniki/kitchen', alt: 'Κουζίνα και τραπεζαρία' },
+      { name: 'thessaloniki/bathroom', alt: 'Μπάνιο με ντουζιέρα και φωτιζόμενο καθρέφτη' },
+      { name: 'thessaloniki/balcony', alt: 'Μπαλκόνι με τραπεζάκι και δύο καρέκλες' },
+      { name: 'thessaloniki/bedroom-art', alt: 'Ο πίνακας πάνω από το κρεβάτι' },
+      { name: 'thessaloniki/bedroom-wardrobe', alt: 'Ντουλάπα με καθρέφτη στο υπνοδωμάτιο' },
+    ],
+    cardPhoto: 'thessaloniki/dining',
     nearby: [
       { name: 'Πλατεία Ηλιούπολης', time: '450 μ.' },
       { name: 'Πάρκο Δενδροποτάμου', time: '600 μ.' },
@@ -88,7 +100,7 @@ export const stays: Stay[] = [
       { label: 'Ακύρωση', value: '[ΠΟΛΙΤΙΚΗ ΑΚΥΡΩΣΗΣ]' },
     ],
     ama: '[ΑΡΙΘΜΟΣ]',
-    photos: ['Εξωτερικός χώρος / θέα', 'Σαλόνι', 'Υπνοδωμάτιο', 'Κουζίνα', 'Παραλία κοντά'],
+    photos: [{ alt: 'Εξωτερικός χώρος / θέα' }, { alt: 'Σαλόνι' }, { alt: 'Υπνοδωμάτιο' }, { alt: 'Κουζίνα' }, { alt: 'Παραλία κοντά' }],
     nearby: [
       { name: '[Κοντινότερη παραλία]', time: '[Χ] λεπτά' },
       { name: '[Σούπερ μάρκετ]', time: '[Χ] λεπτά' },
