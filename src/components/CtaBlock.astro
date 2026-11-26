@@ -1,0 +1,27 @@
+---
+// A full-width colour block with a very big title and big links (editorial style).
+interface Props { title: string; tone?: 'honey' | 'pine' | 'ink' }
+const { title, tone = 'honey' } = Astro.props;
+---
+<section class:list={['cta', `cta--${tone}`]}>
+  <div class="wrap cta__in">
+    <h2 class="cta__t">{title}</h2>
+    <div class="cta__links"><slot /></div>
+  </div>
+</section>
+<style>
+  .cta { margin-top: var(--section); background-image: url('/paper.svg'); }
+  .cta--honey { background-color: var(--honey); color: var(--ink); }
+  .cta--pine { background-color: var(--pine); color: var(--white); }
+  .cta--ink { background-color: var(--ink); color: var(--white); }
+  .cta__in { padding-top: 96px; padding-bottom: 96px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 32px; }
+  .cta__t { font-size: clamp(52px, 9vw, 128px); line-height: .9; letter-spacing: -0.04em; max-width: 9em; }
+  .cta__links { display: flex; flex-direction: column; gap: 18px; }
+  .cta__links :global(a) { display: flex; flex-direction: column; color: inherit; text-decoration: none; }
+  .cta__links :global(a > span) { font-size: clamp(28px, 3.4vw, 40px); font-weight: 600; letter-spacing: -0.03em; text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; }
+  .cta__links :global(a > span)::after { content: ' →'; }
+  .cta__links :global(a > small) { font-size: 15px; margin-top: 6px; opacity: .85; }
+  .cta--honey .cta__links :global(a:hover > span) { color: var(--white); }
+  .cta--pine .cta__links :global(a:hover > span), .cta--ink .cta__links :global(a:hover > span) { color: var(--honey); }
+  @media (max-width: 700px) { .cta__in { padding-top: 64px; padding-bottom: 64px; } }
+</style>

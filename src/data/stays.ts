@@ -26,6 +26,8 @@ export interface Stay {
   // Without a name the slot shows a grey placeholder with the text. First = the big one.
   photos: { name?: string; alt: string }[];
   cardPhoto?: string; // photo for the card on the homepage
+  size?: string;      // square metres, shown with the room drawing
+  rating?: { score: string; source: string; count: string };
   nearby: { name: string; time: string }[];
   mapQuery: string;
   links: { airbnb: string; booking: string; vrbo: string };
@@ -66,6 +68,8 @@ export const stays: Stay[] = [
       { name: 'thessaloniki/bedroom-wardrobe', alt: 'Ντουλάπα με καθρέφτη στο υπνοδωμάτιο' },
     ],
     cardPhoto: 'thessaloniki/dining',
+    size: '40',
+    rating: { score: '10', source: 'Booking.com', count: '7 κριτικές' },
     nearby: [
       { name: 'Πλατεία Ηλιούπολης', time: '450 μ.' },
       { name: 'Πάρκο Δενδροποτάμου', time: '600 μ.' },

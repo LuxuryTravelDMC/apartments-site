@@ -1,17 +1,18 @@
 ---
 // The top of a simple page: small label, big title, short intro.
-interface Props { label: string; title: string; lead?: string }
-const { label, title, lead } = Astro.props;
+interface Props { label: string; title: string; lead?: string; count?: number }
+const { label, title, lead, count } = Astro.props;
 ---
 <section class="wrap ph">
   <div class="label">{label}</div>
-  <h1 class="ph__t">{title}</h1>
+  <h1 class="ph__t">{title}{count !== undefined && <sup>({String(count).padStart(2, '0')})</sup>}</h1>
   {lead && <p class="ph__lead muted">{lead}</p>}
   <slot />
 </section>
 <style>
   .ph { padding-top: 64px; }
-  .ph__t { font-weight: 600; font-size: clamp(48px, 7vw, 96px); line-height: .98; margin: 8px 0 16px; }
-  .ph__lead { max-width: 640px; }
+  .ph__t { font-weight: 600; font-size: clamp(52px, 9vw, 128px); line-height: .92; letter-spacing: -0.04em; margin: 14px 0 22px; }
+  .ph__t sup { font-size: .22em; font-weight: 500; letter-spacing: 0; vertical-align: top; margin-left: 8px; color: var(--ink-2); position: relative; top: .4em; }
+  .ph__lead { max-width: 620px; font-size: 20px; }
   @media (max-width: 700px) { .ph { padding-top: 40px; } }
 </style>

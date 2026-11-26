@@ -7,7 +7,7 @@ import { site } from '../data/site';
 import { stays } from '../data/stays';
 ---
 <Base title={`Επικοινωνία · ${site.name}`} description={`Επικοινωνήστε με το ${site.name} για κρατήσεις και ερωτήσεις.`}>
-  <PageHead label="Επικοινωνία" title="Μιλήστε μαζί μας"
+  <PageHead label="Επικοινωνία" title="Μιλήστε μαζί μας."
     lead="Για κρατήσεις, ερωτήσεις ή ειδικά αιτήματα, γράψτε μας ή πάρτε μας τηλέφωνο." />
 
   <section class="wrap split" style="padding-top: 40px">
@@ -67,11 +67,14 @@ import { stays } from '../data/stays';
   });
 </script>
 <style>
-  .cform { display: flex; flex-direction: column; gap: 16px; background: var(--white); border: 1px solid var(--line); border-radius: 6px; padding: 32px; }
+  .cform { display: flex; flex-direction: column; gap: 18px; background: var(--white); border-radius: 6px; padding: 36px; box-shadow: 0 18px 40px rgb(54 48 43 / .08); }
   .cform__row { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
   .cform textarea { padding: 12px; border: 1px solid var(--gray-warm); border-radius: 6px; font: 17px var(--sans); color: var(--ink); resize: vertical; }
   .cform textarea:focus { outline: none; border: 2px solid var(--pine); }
-  .info { display: flex; flex-direction: column; gap: 24px; padding: 32px; background: var(--honey-light); border-radius: 6px; }
-  .info .label { margin-bottom: 4px; }
+  .info { display: flex; flex-direction: column; gap: 24px; padding: 32px; background: var(--ink) url('/paper.svg'); color: var(--white); border-radius: 6px; }
+  .info a { color: var(--honey); }
+  .info :global(.label) { color: var(--white); margin-bottom: 6px; display: block; }
+  .info :global(.label)::before { color: var(--honey); }
+  .info .muted { color: var(--gray-light); }
   @media (max-width: 700px) { .cform, .info { padding: 24px; } }
 </style>

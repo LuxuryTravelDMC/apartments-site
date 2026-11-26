@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import { site } from '../data/site';
+import CtaBlock from '../components/CtaBlock.astro';
 import { stays, guides } from '../data/stays';
 const groups = [
   ...stays.map((s) => ({ key: s.slug, title: s.place, sub: `Γύρω από το ${s.title}, ${s.area}`, theme: s.theme })),
@@ -9,21 +10,22 @@ const groups = [
 ];
 ---
 <Base title={`Οδηγοί περιοχής · ${site.name}`} description="Τι να δείτε, πού να φάτε και πώς να κινηθείτε στη Θεσσαλονίκη και στη Χαλκιδική.">
-  <PageHead label="Οδηγοί περιοχής" title="Πριν έρθετε"
+  <PageHead label="Οδηγοί περιοχής" title="Πριν έρθετε." count={guides.length}
     lead="Τα δικά μας μέρη, όπως τα ζούμε εμείς: τι να δείτε, πού να φάτε και πώς να κινηθείτε στη Θεσσαλονίκη και στη Χαλκιδική." />
 
   {groups.map((g) => (
     <section class:list={['band', g.theme === 'sea' ? 'band--pine' : g.theme === 'city' ? 'band--honey' : 'band--gray']}>
       <div class="wrap">
-        <h2>{g.title}</h2>
-        <p class="muted" style="margin: 4px 0 28px">{g.sub}</p>
+        <div class="ghead"><h2>{g.title}</h2><span class="num">({String(guides.filter((x) => x.place === g.key).length).padStart(2, '0')})</span></div>
+        <p class="muted" style="margin: 6px 0 32px">{g.sub}</p>
         <div class="grid">
           {guides.filter((x) => x.place === g.key).map((x) => (
             <article class="guide">
+              <div class="guide__n">{String(guides.indexOf(x) + 1).padStart(2, '0')}</div>
               <div class="label">{x.tag}</div>
               <h3 class="guide__t">{x.title}</h3>
               <p class="small muted">{x.text}</p>
-              <span class="chip guide__soon">Σύντομα</span>
+              <span class="chip guide__soon">/Σύντομα</span>
             </article>
           ))}
         </div>
@@ -33,9 +35,16 @@ const groups = [
       </div>
     </section>
   ))}
+  <CtaBlock title="Έτοιμοι για το ταξίδι;" tone="pine">
+    {stays.map((st) => <a href={`/${st.slug}`}><span>{st.place}</span><small>{st.title} · {st.area}</small></a>)}
+  </CtaBlock>
 </Base>
 <style>
-  .guide { padding: 24px; background: var(--white); border-radius: 6px; display: flex; flex-direction: column; gap: 8px; }
-  .guide__t { font-size: 22px; }
+  .ghead { display: flex; align-items: baseline; gap: 12px; }
+  .ghead h2 { font-size: clamp(40px, 6vw, 72px); }
+  .guide { padding: 24px; background: var(--white); border-radius: 6px; display: flex; flex-direction: column; gap: 10px; min-height: 280px; transition: transform .2s, box-shadow .2s; }
+  .guide:hover { transform: translateY(-3px); box-shadow: 0 16px 34px rgb(54 48 43 / .14); }
+  .guide__n { font-size: 56px; font-weight: 600; letter-spacing: -0.04em; line-height: 1; color: var(--line); }
+  .guide__t { font-size: 24px; }
   .guide__soon { margin-top: auto; width: max-content; }
 </style>

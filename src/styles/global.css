@@ -44,9 +44,15 @@ p { margin: 0; }
 .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
 .section { padding-top: var(--section); }
 .band { margin-top: var(--section); padding: 72px 0; }
-.band--gray { background: var(--gray-light); }
-.band--honey { background: var(--honey-light); }
-.band--pine { background: var(--pine-light); }
+.band { background-image: url('/paper.svg'); }
+.band--gray { background-color: var(--gray-light); }
+.band--honey { background-color: var(--honey-light); }
+.band--pine { background-color: var(--pine-light); }
+/* Editorial bits */
+.tagrow { display: flex; flex-wrap: wrap; gap: 8px; }
+.tick { display: inline-flex; align-items: center; gap: 10px; }
+.tick::before { content: ''; width: 22px; height: 22px; flex: none; border: 1.5px solid var(--ink-2); border-radius: 4px; background: linear-gradient(var(--pine), var(--pine)) center / 8px 8px no-repeat; }
+.num { font-variant-numeric: tabular-nums; color: var(--ink-2); font-size: 14px; letter-spacing: .04em; }
 .label { display: inline-block; font-weight: 500; font-size: 13px; letter-spacing: .06em; color: var(--ink); text-transform: uppercase; }
 .label::before { content: '/'; color: var(--pine); margin-right: 4px; }
 .muted { color: var(--ink-2); }
@@ -91,3 +97,4 @@ p { margin: 0; }
   h3 { font-size: 24px; }
   .band { padding: 48px 0; }
 }
+main:has(> .cta:last-child) + footer { margin-top: 0 !important; }
