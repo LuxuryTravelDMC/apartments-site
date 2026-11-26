@@ -31,16 +31,16 @@ const tabs = ['Υπνοδωμάτιο', 'Σαλόνι', 'Κουζίνα', 'Μπ�
 <style>
   .bp { background: var(--pine) url('/paper.svg'); color: var(--white); border-radius: 6px; padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; }
   .bp__tabs { display: flex; flex-wrap: wrap; gap: 4px 14px; }
-  .bp__tab { background: none; border: 0; padding: 4px 0; color: var(--white); font: 500 14px var(--sans); opacity: .5; cursor: pointer; transition: opacity .4s; }
+  .bp__tab { background: none; border: 0; padding: 4px 0; color: var(--white); font: 500 14px var(--sans); opacity: .5; cursor: pointer; transition: opacity .9s ease-in-out; }
   .bp[data-active='0'] [data-tab='0'], .bp[data-active='1'] [data-tab='1'], .bp[data-active='2'] [data-tab='2'], .bp[data-active='3'] [data-tab='3'] { opacity: 1; }
   .bp__svg { width: 100%; height: auto; display: block; }
   .bp__svg path { fill: none; stroke: #fff; stroke-width: 1.2; stroke-linejoin: round; }
   .bp__svg .bp__fill { fill: var(--pine); }
   .bp__svg .bp__grid { stroke: rgb(255 255 255 / .16); stroke-width: 1; }
   .bp__shell { opacity: .9; }
-  .bp__z { opacity: .32; transition: opacity .5s; }
-  .bp__z path { transition: stroke-width .5s; }
-  .bp__svg .bp__zone { fill: rgb(233 169 47 / .0); stroke: none; transition: fill .5s; }
+  .bp__z { opacity: .32; transition: opacity .9s ease-in-out; }
+  .bp__z path { transition: stroke-width .9s ease-in-out; }
+  .bp__svg .bp__zone { fill: rgb(233 169 47 / .0); stroke: none; transition: fill .9s ease-in-out; }
   .bp[data-active='0'] .bp__z[data-zone='0'], .bp[data-active='1'] .bp__z[data-zone='1'], .bp[data-active='2'] .bp__z[data-zone='2'], .bp[data-active='3'] .bp__z[data-zone='3'] { opacity: 1; }
   .bp[data-active='0'] .bp__z[data-zone='0'] path, .bp[data-active='1'] .bp__z[data-zone='1'] path, .bp[data-active='2'] .bp__z[data-zone='2'] path, .bp[data-active='3'] .bp__z[data-zone='3'] path { stroke-width: 1.7; }
   .bp[data-active='0'] .bp__zone[data-zone='0'], .bp[data-active='1'] .bp__zone[data-zone='1'], .bp[data-active='2'] .bp__zone[data-zone='2'], .bp[data-active='3'] .bp__zone[data-zone='3'] { fill: rgb(233 169 47 / .28); }
