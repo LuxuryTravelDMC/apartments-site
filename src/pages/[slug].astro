@@ -3,7 +3,7 @@
 import Base from '../layouts/Base.astro';
 import BookingBox from '../components/BookingBox.astro';
 import { site } from '../data/site';
-import { stays, type Stay } from '../data/stays';
+import { stays, factsLine, type Stay } from '../data/stays';
 
 export function getStaticPaths() {
   return stays.map((stay) => ({ params: { slug: stay.slug }, props: { stay } }));
@@ -18,7 +18,7 @@ const [big, ...small] = s.photos;
     <div class="label" style="margin-top: 24px">{s.place} · {s.area}</div>
     <h1 class:list={['title', s.theme === 'sea' && 'title--sea']}>{s.heroTitle}</h1>
     <div class="facts small muted">
-      <span>{s.facts.guests} άτομα · {s.facts.bedrooms} υπνοδωμάτια · {s.facts.beds} κρεβάτια · {s.facts.baths} μπάνιο</span>
+      <span>{factsLine(s.facts)}</span>
       {s.isNew && <span class="chip chip--new">Νέο</span>}
     </div>
     <div class="gallery">

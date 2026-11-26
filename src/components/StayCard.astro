@@ -1,5 +1,5 @@
 ---
-import type { Stay } from '../data/stays';
+import { factsLine, type Stay } from '../data/stays';
 interface Props { stay: Stay }
 const { stay: s } = Astro.props;
 ---
@@ -11,7 +11,7 @@ const { stay: s } = Astro.props;
       {s.isNew && <span class="chip chip--new">Νέο</span>}
     </div>
     <h3><a href={`/${s.slug}`}>{s.title}</a></h3>
-    <div class="small card__facts">{s.facts.guests} άτομα · {s.facts.bedrooms} υπνοδωμάτια · {s.facts.baths} μπάνιο</div>
+    <div class="small card__facts">{factsLine(s.facts, false)}</div>
     <p>{s.short}</p>
     <div class="card__foot">
       <div>από <strong>{s.priceFrom} €</strong> / βράδυ</div>
