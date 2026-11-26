@@ -1,0 +1,9 @@
+# Cloudflare reads this file and adds these headers to every response.
+# It asks search engines not to list the site while it is being built.
+# Delete the first block when the site goes live
+# (and set hideFromSearch to false in src/data/site.ts).
+/*
+  X-Robots-Tag: noindex, nofollow
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable

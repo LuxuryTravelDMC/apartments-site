@@ -1,0 +1,85 @@
+/* Design kit «Πεύκο, μέλι και γκρι». Colors at the top: change here, changes everywhere. */
+:root {
+  --bg: #F7F5F0;          /* Φόντο σελίδας */
+  --gray-light: #E8E5DF;  /* Φόντο ενοτήτων */
+  --line: #D6D2CA;        /* Περιγράμματα καρτών */
+  --gray-warm: #8E877C;   /* Γραμμές, πεδία. Όχι κείμενο */
+  --ink: #34363A;         /* Κείμενα, footer, Θεσσαλονίκη */
+  --ink-2: #5A5C60;       /* Δευτερεύον κείμενο */
+  --pine: #3F6B4A;        /* Κουμπιά, links */
+  --pine-hover: #335A3D;
+  --honey: #D9A441;       /* Ετικέτες, Θεσσαλονίκη */
+  --honey-dark: #B5841F;  /* Αστεράκια */
+  --pine-light: #DCE6D8;  /* Ενότητα Χαλκιδικής */
+  --honey-light: #F3E6C9; /* Ενότητα άρθρων */
+  --white: #FFFFFF;
+
+  --serif: 'Alegreya', Georgia, serif;
+  --sans: 'Alegreya Sans', system-ui, sans-serif;
+  --radius: 6px;
+  --btn-radius: 6px;
+  --max: 1280px;
+  --section: 104px;
+}
+/* Per apartment: Thessaloniki straight, Chalkidiki round */
+[data-theme='city'] { --btn-radius: 0; }
+[data-theme='sea'] { --btn-radius: 999px; --radius: 16px; }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 18px/1.55 var(--sans); }
+img { max-width: 100%; display: block; }
+a { color: var(--pine); }
+a:hover { color: var(--pine-hover); }
+h1, h2, h3 { font-family: var(--serif); line-height: 1.15; margin: 0; }
+h2 { font-weight: 700; font-size: 40px; }
+h3 { font-weight: 500; font-size: 28px; }
+p { margin: 0; }
+
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+.section { padding-top: var(--section); }
+.band { margin-top: var(--section); padding: 72px 0; }
+.band--gray { background: var(--gray-light); }
+.band--honey { background: var(--honey-light); }
+.band--pine { background: var(--pine-light); }
+.label { font-weight: 700; font-size: 14px; letter-spacing: .12em; color: var(--pine); text-transform: uppercase; }
+.muted { color: var(--ink-2); }
+.small { font-size: 15px; }
+.head { margin: 8px 0 32px; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px;
+  border: 0; border-radius: var(--btn-radius); background: var(--pine); color: var(--white);
+  font: 700 17px var(--sans); text-decoration: none; cursor: pointer; }
+.btn:hover { background: var(--pine-hover); color: var(--white); }
+.btn--honey { background: var(--honey); color: var(--ink); }
+.btn--honey:hover { background: var(--honey-dark); color: var(--ink); }
+.btn--ghost { background: var(--white); color: var(--ink); border: 1px solid var(--ink); }
+.btn--ghost:hover { background: var(--gray-light); color: var(--ink); }
+.chip { display: inline-block; padding: 6px 14px; border: 1px solid var(--gray-warm); border-radius: 999px; font-size: 14px; }
+.chip--new { border: 0; background: var(--honey); color: var(--ink); padding: 2px 12px; }
+
+.field { display: flex; flex-direction: column; gap: 6px; font-size: 15px; }
+.field input, .field select { height: 48px; padding: 0 12px; border: 1px solid var(--gray-warm); border-radius: var(--radius);
+  background: var(--white); font: 17px var(--sans); color: var(--ink); width: 100%; }
+[data-theme='city'] .field input, [data-theme='city'] .field select { border-radius: 0; }
+[data-theme='sea'] .field input, [data-theme='sea'] .field select { border-radius: 6px; }
+.field input:focus, .field select:focus { outline: none; border: 2px solid var(--pine); }
+
+.photo { background: var(--gray-light); color: var(--ink-2); font-size: 15px; display: flex; align-items: center;
+  justify-content: center; text-align: center; padding: 12px; border-radius: var(--radius); min-height: 120px; }
+
+.grid { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+.split { display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start; }
+.split > .main { flex: 999 1 560px; min-width: 0; }
+.split > .side { flex: 1 1 320px; min-width: 0; }
+
+.skip-link { position: absolute; left: -9999px; }
+.skip-link:focus { left: 16px; top: 16px; background: var(--white); padding: 8px 12px; z-index: 10; }
+
+@media (max-width: 700px) {
+  :root { --section: 56px; }
+  body { font-size: 17px; }
+  h2 { font-size: 30px; }
+  h3 { font-size: 24px; }
+  .band { padding: 48px 0; }
+}

@@ -1,0 +1,88 @@
+---
+import Base from '../layouts/Base.astro';
+import StayCard from '../components/StayCard.astro';
+import BookingBox from '../components/BookingBox.astro';
+import { site } from '../data/site';
+import { stays, guides, reviews, ratings } from '../data/stays';
+---
+<Base title={`${site.name} · Διαμερίσματα σε Θεσσαλονίκη και Χαλκιδική`}>
+  <section class="wrap hero">
+    <div class="label">Θεσσαλονίκη · Χαλκιδική</div>
+    <h1 class="hero__title">Πόλη και θάλασσα</h1>
+    <p class="hero__lead muted">Δύο διαμερίσματα, ένα στη Θεσσαλονίκη κι ένα στη Χαλκιδική. Κλείστε απευθείας με τον ιδιοκτήτη.</p>
+    <div class="photo hero__photo" role="img" aria-label="Θέση για κεντρική φωτογραφία">Φωτογραφία: η καλύτερη λήψη από τα δύο διαμερίσματα</div>
+    <BookingBox layout="bar" />
+  </section>
+
+  <section id="stays" class="wrap section">
+    <div class="label">Δύο διαμερίσματα</div>
+    <h2 class="head">Τα καταλύματα</h2>
+    <div class="stays">{stays.map((s) => <StayCard stay={s} />)}</div>
+  </section>
+
+  <section class="band band--gray">
+    <div class="wrap grid why">
+      <div><h3>Μιλάτε απευθείας μαζί μας</h3><p class="muted">Ό,τι χρειαστείτε, πριν και κατά τη διαμονή σας.</p></div>
+      <div><h3>Άμεση επιβεβαίωση</h3><p class="muted">Ασφαλής online κράτηση με {site.paymentMethod}.</p></div>
+      <div><h3>{site.directPerk.title}</h3><p class="muted">{site.directPerk.text}</p></div>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="label">Κριτικές</div>
+    <h2 style="margin: 8px 0 12px">Τι λένε οι επισκέπτες</h2>
+    <p class="muted" style="margin-bottom: 32px">{ratings}</p>
+    <div class="grid">
+      {reviews.map((r) => (
+        <figure class="review">
+          <div class="review__stars" aria-hidden="true">★★★★★</div>
+          <blockquote>{r.text}</blockquote>
+          <figcaption class="small muted">{r.who} · {r.stay}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  <section id="guides" class="band band--honey">
+    <div class="wrap">
+      <div class="label" style="color: var(--pine-hover)">Οδηγοί περιοχής</div>
+      <h2 class="head">Πριν έρθετε</h2>
+      <div class="grid">
+        {guides.map((g) => (
+          <article class="guide"><div class="label">{g.tag}</div><h3 class="guide__t">{g.title}</h3></article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="host" class="wrap section host">
+    <div class="photo host__photo" role="img" aria-label="Θέση για φωτογραφία οικοδεσπότη">Φωτογραφία: εσύ</div>
+    <div class="host__text">
+      <div class="label">Ο οικοδεσπότης</div>
+      <h2 style="margin: 8px 0 16px">Γεια, είμαι {site.host.name}</h2>
+      <p style="max-width: 640px; margin-bottom: 12px">{site.host.bio}</p>
+      <p class="small muted">Μιλάω: {site.host.languages}</p>
+    </div>
+  </section>
+</Base>
+<style>
+  .hero { padding-top: 64px; }
+  .hero__title { font-style: italic; font-weight: 500; font-size: clamp(56px, 9vw, 120px); line-height: 1; margin: 8px 0 16px; }
+  .hero__lead { max-width: 620px; margin-bottom: 40px; }
+  .hero__photo { height: 520px; }
+  .stays { display: grid; gap: 32px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
+  .why h3 { font-size: 24px; margin-bottom: 8px; }
+  .review { margin: 0; padding: 28px; background: var(--white); border: 1px solid var(--line); border-radius: 6px; }
+  .review__stars { color: var(--honey-dark); letter-spacing: 2px; }
+  .review blockquote { margin: 12px 0; font: 20px var(--serif); }
+  .guide { padding: 24px; background: var(--white); border-radius: 6px; }
+  .guide__t { font-size: 22px; font-weight: 500; margin-top: 8px; }
+  .host { display: flex; flex-wrap: wrap; gap: 48px; align-items: center; }
+  .host__photo { flex: 0 0 320px; height: 320px; }
+  .host__text { flex: 999 1 420px; min-width: 0; }
+  @media (max-width: 700px) {
+    .hero { padding-top: 40px; }
+    .hero__photo { height: 300px; }
+    .host__photo { flex-basis: 100%; height: 260px; }
+  }
+</style>

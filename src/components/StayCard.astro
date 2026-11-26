@@ -1,0 +1,36 @@
+---
+import type { Stay } from '../data/stays';
+interface Props { stay: Stay }
+const { stay: s } = Astro.props;
+---
+<article class:list={['card', `card--${s.theme}`]}>
+  <div class="photo card__photo" role="img" aria-label={`Θέση για φωτογραφία: ${s.place}`}>Φωτογραφία: {s.place}</div>
+  <div class="card__body">
+    <div class="card__top">
+      <span class="label">{s.place} · {s.area}</span>
+      {s.isNew && <span class="chip chip--new">Νέο</span>}
+    </div>
+    <h3><a href={`/${s.slug}`}>{s.title}</a></h3>
+    <div class="small card__facts">{s.facts.guests} άτομα · {s.facts.bedrooms} υπνοδωμάτια · {s.facts.baths} μπάνιο</div>
+    <p>{s.short}</p>
+    <div class="card__foot">
+      <div>από <strong>{s.priceFrom} €</strong> / βράδυ</div>
+      <a class:list={['btn', s.theme === 'city' ? 'btn--honey card__btn--city' : 'card__btn--sea']} href={`/${s.slug}`}>Δείτε το διαμέρισμα</a>
+    </div>
+  </div>
+</article>
+<style>
+  .card { background: var(--white); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; display: flex; flex-direction: column; }
+  .card--sea { background: var(--pine-light); }
+  .card--sea .label { color: var(--pine-hover); }
+  .card__photo { height: 340px; border-radius: 0; }
+  .card__body { padding: 32px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  .card__top { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .card h3 a { color: var(--ink); text-decoration: none; }
+  .card__facts { color: var(--ink-2); }
+  .card--sea .card__facts { color: var(--ink); }
+  .card__foot { margin-top: auto; padding-top: 8px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+  .card__btn--city { border-radius: 0; }
+  .card__btn--sea { border-radius: 999px; }
+  @media (max-width: 700px) { .card__photo { height: 240px; } .card__body { padding: 24px; } }
+</style>

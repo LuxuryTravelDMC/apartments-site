@@ -1,0 +1,101 @@
+---
+// One page per apartment: /thessaloniki, /chalkidiki (from src/data/stays.ts).
+import Base from '../layouts/Base.astro';
+import BookingBox from '../components/BookingBox.astro';
+import { site } from '../data/site';
+import { stays, type Stay } from '../data/stays';
+
+export function getStaticPaths() {
+  return stays.map((stay) => ({ params: { slug: stay.slug }, props: { stay } }));
+}
+const { stay: s } = Astro.props as { stay: Stay };
+const other = stays.find((o) => o.slug !== s.slug);
+const [big, ...small] = s.photos;
+---
+<Base title={`${s.title} · ${site.name}`} description={s.short} theme={s.theme}>
+  <section class="wrap" style="padding-top: 40px">
+    <a href="/" class="small">← Όλα τα καταλύματα</a>
+    <div class="label" style="margin-top: 24px">{s.place} · {s.area}</div>
+    <h1 class:list={['title', s.theme === 'sea' && 'title--sea']}>{s.heroTitle}</h1>
+    <div class="facts small muted">
+      <span>{s.facts.guests} άτομα · {s.facts.bedrooms} υπνοδωμάτια · {s.facts.beds} κρεβάτια · {s.facts.baths} μπάνιο</span>
+      {s.isNew && <span class="chip chip--new">Νέο</span>}
+    </div>
+    <div class="gallery">
+      <div class="photo gallery__big" role="img" aria-label={`Θέση για φωτογραφία: ${big}`}>{big}</div>
+      {small.map((p) => <div class="photo" role="img" aria-label={`Θέση για φωτογραφία: ${p}`}>{p}</div>)}
+    </div>
+  </section>
+
+  <section class="wrap split" style="padding-top: 56px">
+    <div class="main">
+      <h2 class="sub">Το διαμέρισμα</h2>
+      <p>{s.description}</p>
+      <div class="tags">{s.tags.map((t) => <span class="chip">{t}</span>)}</div>
+
+      <div class="block">
+        <h2 class="sub">Τι προσφέρει</h2>
+        <ul class="list">{s.amenities.map((a) => <li>{a}</li>)}</ul>
+      </div>
+
+      <div class="block">
+        <h2 class="sub">Κανόνες</h2>
+        <dl class="list">
+          {s.rules.map((r) => <div><dt class="small muted">{r.label}</dt><dd>{r.value}</dd></div>)}
+          <div><dt class="small muted">ΑΜΑ</dt><dd>{s.ama}</dd></div>
+        </dl>
+      </div>
+    </div>
+    <aside class="side"><BookingBox stay={s} /></aside>
+  </section>
+
+  <section class:list={[s.theme === 'sea' ? 'band band--pine' : 'section']}>
+    <div class="wrap">
+      <div class="label">Τοποθεσία</div>
+      <h2 class="head">Πού θα μείνετε</h2>
+      <div class="split" style="gap: 40px">
+        <div class="photo main" style="height: 400px" role="img" aria-label="Θέση για χάρτη">Χάρτης: {s.area}, {s.mapQuery}</div>
+        <ul class="side near">{s.nearby.map((n) => <li><span>{n.name}</span><span>{n.time}</span></li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  {other && (
+    <section class="wrap section">
+      <h2 class="sub">Δείτε και το άλλο μας διαμέρισμα</h2>
+      <a href={`/${other.slug}`} class:list={['other', `other--${other.theme}`]}>
+        <div class="photo other__photo" role="img" aria-label={`Θέση για φωτογραφία: ${other.place}`}>Φωτογραφία: {other.place}</div>
+        <div class="other__body">
+          <div class="label">{other.place} · {other.area}</div>
+          <div class="other__t">{other.title}</div>
+          <div>από <strong>{other.priceFrom} €</strong> / βράδυ →</div>
+        </div>
+      </a>
+    </section>
+  )}
+</Base>
+<style>
+  .title { font-weight: 700; font-size: clamp(38px, 5vw, 56px); margin: 8px 0; }
+  .title--sea { font-style: italic; font-weight: 500; font-size: clamp(48px, 7vw, 96px); line-height: 1.05; }
+  .facts { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+  .gallery { margin-top: 32px; display: grid; gap: 12px; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: 240px 240px; }
+  .gallery__big { grid-column: span 2; grid-row: span 2; }
+  [data-theme='city'] .gallery .photo, [data-theme='city'] .photo { border-radius: 0; }
+  .sub { font-size: 30px; margin-bottom: 16px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .block { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--line); }
+  .list { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px 32px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .list dd { margin: 0; }
+  .near { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
+  .near li { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+  .other { display: flex; flex-wrap: wrap; border-radius: 6px; overflow: hidden; color: var(--ink); text-decoration: none; border: 1px solid var(--line); background: var(--white); }
+  .other--sea { background: var(--pine-light); }
+  .other:hover { color: var(--ink); border-color: var(--gray-warm); }
+  .other__photo { flex: 1 1 320px; height: 260px; border-radius: 0; }
+  .other__body { flex: 999 1 360px; padding: 32px; display: flex; flex-direction: column; justify-content: center; gap: 8px; }
+  .other__t { font: 500 28px var(--serif); }
+  @media (max-width: 700px) {
+    .gallery { grid-template-columns: 1fr 1fr; grid-template-rows: 220px 140px 140px; }
+    .gallery__big { grid-row: span 1; }
+  }
+</style>

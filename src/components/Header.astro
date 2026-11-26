@@ -1,0 +1,28 @@
+---
+// The menu at the top. Dark on Thessaloniki, light pine on Chalkidiki.
+import { site, nav } from '../data/site';
+interface Props { theme?: 'city' | 'sea' }
+const { theme } = Astro.props;
+---
+<header class:list={['top', theme && `top--${theme}`]}>
+  <div class="wrap top__in">
+    <a class="top__logo" href="/">{site.name}</a>
+    <nav aria-label="Κύριο μενού" class="top__nav">
+      {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+    </nav>
+    <a class:list={['btn', theme === 'city' && 'btn--honey']} href={theme ? '#book' : '/#book'}>Κράτηση</a>
+  </div>
+</header>
+<style>
+  .top { border-bottom: 1px solid var(--line); }
+  .top--city { background: var(--ink); border-color: var(--ink); }
+  .top--sea { background: var(--pine-light); }
+  .top__in { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding-top: 14px; padding-bottom: 14px; }
+  .top__logo { font: 700 24px var(--serif); color: var(--ink); text-decoration: none; }
+  .top__nav { display: flex; flex-wrap: wrap; gap: 4px 28px; font-size: 17px; }
+  .top__nav a { color: var(--ink); text-decoration: none; padding: 10px 0; }
+  .top__nav a:hover { color: var(--pine); }
+  .top--city .top__logo, .top--city .top__nav a { color: var(--white); }
+  .top--city .top__nav a:hover { color: var(--honey); }
+  @media (max-width: 700px) { .top__nav { order: 3; width: 100%; gap: 0 20px; font-size: 16px; } }
+</style>

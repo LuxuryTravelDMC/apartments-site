@@ -1,0 +1,72 @@
+---
+// Dates and guests box. Until the Hosthub booking engine is connected
+// (bookingEngineUrl in src/data/stays.ts), "Check availability" opens the
+// guest's email with the dates filled in, addressed to the email in site.ts.
+import { site } from '../data/site';
+import { stays, type Stay } from '../data/stays';
+interface Props { stay?: Stay; layout?: 'bar' | 'box' }
+const { stay, layout = 'box' } = Astro.props;
+const options = stay ? [stay] : stays;
+const engines = Object.fromEntries(stays.map((s) => [s.slug, s.bookingEngineUrl]));
+const names = Object.fromEntries(stays.map((s) => [s.slug, s.title]));
+---
+<form id="book" class:list={['book', `book--${layout}`]} data-email={site.email}
+  data-engines={JSON.stringify(engines)} data-names={JSON.stringify(names)}>
+  {stay ? (
+    <div class="book__price">από <strong>{stay.priceFrom} €</strong> / βράδυ</div>
+    <input type="hidden" name="stay" value={stay.slug} />
+  ) : (
+    <label class="field">Διαμέρισμα
+      <select name="stay">{options.map((s) => <option value={s.slug}>{s.place}</option>)}</select>
+    </label>
+  )}
+  <div class="book__dates">
+    <label class="field">Άφιξη <input type="date" name="from" required /></label>
+    <label class="field">Αναχώρηση <input type="date" name="to" required /></label>
+  </div>
+  <label class="field">Άτομα <input type="number" name="guests" value="2" min="1" max="12" /></label>
+  <button class:list={['btn', stay?.theme === 'city' && 'btn--honey']} type="submit">
+    {stay ? 'Έλεγχος διαθεσιμότητας' : 'Δείτε διαθεσιμότητα'}
+  </button>
+  {stay && <p class="small book__note">Κλείνετε απευθείας με τον ιδιοκτήτη. {site.directPerk.title}</p>}
+  {stay && (stay.links.airbnb || stay.links.booking || stay.links.vrbo) && (
+    <p class="small muted">Επίσης στο
+      {stay.links.airbnb && <a href={stay.links.airbnb} rel="noopener"> Airbnb</a>}
+      {stay.links.booking && <a href={stay.links.booking} rel="noopener"> Booking.com</a>}
+      {stay.links.vrbo && <a href={stay.links.vrbo} rel="noopener"> Vrbo</a>}
+    </p>
+  )}
+</form>
+<script>
+  document.querySelectorAll<HTMLFormElement>('form.book').forEach((form) => {
+    const from = form.querySelector<HTMLInputElement>('[name=from]')!;
+    const to = form.querySelector<HTMLInputElement>('[name=to]')!;
+    const today = new Date().toISOString().slice(0, 10);
+    from.min = today;
+    to.min = today;
+    from.addEventListener('change', () => { to.min = from.value; if (to.value && to.value <= from.value) to.value = ''; });
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const slug = String(data.get('stay'));
+      const engine = JSON.parse(form.dataset.engines || '{}')[slug];
+      if (engine) { window.location.href = engine; return; }
+      const name = JSON.parse(form.dataset.names || '{}')[slug];
+      const body = `Γεια σας,\n\nΘα ήθελα να κλείσω: ${name}\nΆφιξη: ${data.get('from')}\nΑναχώρηση: ${data.get('to')}\nΆτομα: ${data.get('guests')}\n\nΕυχαριστώ!`;
+      window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent('Κράτηση: ' + name)}&body=${encodeURIComponent(body)}`;
+    });
+  });
+</script>
+<style>
+  .book { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; display: grid; gap: 16px; }
+  .book--bar { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); align-items: end; position: relative; margin: -56px 24px 0; }
+  .book--box { padding: 28px; }
+  .book__dates { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .book--bar .book__dates { grid-column: span 2; }
+  @media (max-width: 760px) { .book--bar .book__dates { grid-column: auto; } }
+  [data-theme='sea'] .book { background: var(--pine-light); border: 0; }
+  [data-theme='city'] .book { border-radius: 0; }
+  .book__price { font-size: 17px; }
+  .book__price strong { font: 700 28px var(--serif); }
+  @media (max-width: 700px) { .book--bar { margin: -32px 12px 0; } }
+</style>
