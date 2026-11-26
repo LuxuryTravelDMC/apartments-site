@@ -28,7 +28,7 @@ export const site = {
 
 export const nav = [
   { href: '/#stays', label: 'Τα καταλύματα' },
-  { href: '/#guides', label: 'Οδηγοί περιοχής' },
-  { href: '/#host', label: 'Ο οικοδεσπότης' },
-  { href: '#contact', label: 'Επικοινωνία' },
+  { href: '/guides', label: 'Οδηγοί περιοχής' },
+  { href: '/host', label: 'Ο οικοδεσπότης' },
+  { href: '/contact', label: 'Επικοινωνία' },
 ];

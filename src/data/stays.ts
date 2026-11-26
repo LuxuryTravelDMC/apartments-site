@@ -122,10 +122,15 @@ export function factsLine(f: Stay['facts'], withBeds = true) {
   return parts.join(' · ');
 }
 
+// Area guides (articles). Titles in [BRACKETS] are ideas for articles still to be written.
+// place: which apartment the guide is for ('thessaloniki' | 'chalkidiki' | 'both').
 export const guides = [
-  { tag: 'ΘΕΣΣΑΛΟΝΙΚΗ', title: '[Ένα Σαββατοκύριακο στη Θεσσαλονίκη]' },
-  { tag: 'ΧΑΛΚΙΔΙΚΗ', title: '[Οι παραλίες κοντά στο διαμέρισμα]' },
-  { tag: 'ΠΡΑΚΤΙΚΑ', title: '[Πώς θα έρθετε από το αεροδρόμιο]' },
+  { tag: 'ΘΕΣΣΑΛΟΝΙΚΗ', place: 'thessaloniki', title: '[Ένα Σαββατοκύριακο στη Θεσσαλονίκη]', text: '[Τι να δείτε σε 2–3 μέρες: Λευκός Πύργος, παραλία, Άνω Πόλη, αγορές.]' },
+  { tag: 'ΘΕΣΣΑΛΟΝΙΚΗ', place: 'thessaloniki', title: '[Πού θα φάτε κοντά στο Phoenix]', text: '[Τα αγαπημένα σας μαγαζιά, καφέ και φούρνοι στη γειτονιά.]' },
+  { tag: 'ΘΕΣΣΑΛΟΝΙΚΗ', place: 'thessaloniki', title: '[Θεσσαλονίκη τον χειμώνα]', text: '[Χριστουγεννιάτικη αγορά, μουσεία, εκδηλώσεις και φεστιβάλ.]' },
+  { tag: 'ΧΑΛΚΙΔΙΚΗ', place: 'chalkidiki', title: '[Οι παραλίες κοντά στα Νέα Μουδανιά]', text: '[Οι καλύτερες παραλίες σε απόσταση 5–30 λεπτών με το αυτοκίνητο.]' },
+  { tag: 'ΧΑΛΚΙΔΙΚΗ', place: 'chalkidiki', title: '[Μονοήμερες εκδρομές στην Κασσάνδρα]', text: '[Άφυτος, Σάνη, Ποτίδαια: πού να πάτε και πότε.]' },
+  { tag: 'ΠΡΑΚΤΙΚΑ', place: 'both', title: '[Πώς θα έρθετε από το αεροδρόμιο]', text: '[Ταξί, λεωφορείο, ενοικίαση αυτοκινήτου: χρόνοι και κόστος.]' },
 ];
 
 // Real reviews only, copied from Airbnb or Booking with the guest's first name.

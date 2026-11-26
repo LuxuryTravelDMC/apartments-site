@@ -1,0 +1,77 @@
+---
+// Contact page. The form opens the visitor's email program with everything
+// filled in, addressed to the email in src/data/site.ts (like the booking box).
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { site } from '../data/site';
+import { stays } from '../data/stays';
+---
+<Base title={`Επικοινωνία · ${site.name}`} description={`Επικοινωνήστε με το ${site.name} για κρατήσεις και ερωτήσεις.`}>
+  <PageHead label="Επικοινωνία" title="Μιλήστε μαζί μας"
+    lead="Για κρατήσεις, ερωτήσεις ή ειδικά αιτήματα, γράψτε μας ή πάρτε μας τηλέφωνο." />
+
+  <section class="wrap split" style="padding-top: 40px">
+    <form id="contact-form" class="main cform" data-email={site.email}>
+      <div class="cform__row">
+        <label class="field">Ονοματεπώνυμο <input name="name" required autocomplete="name" /></label>
+        <label class="field">Email <input name="email" type="email" required autocomplete="email" /></label>
+      </div>
+      <div class="cform__row">
+        <label class="field">Τηλέφωνο (προαιρετικά) <input name="phone" type="tel" autocomplete="tel" /></label>
+        <label class="field">Διαμέρισμα
+          <select name="stay"><option value="">Δεν έχω αποφασίσει</option>{stays.map((s) => <option>{s.title} · {s.place}</option>)}</select>
+        </label>
+      </div>
+      <div class="cform__row">
+        <label class="field">Άφιξη (προαιρετικά) <input name="from" type="date" /></label>
+        <label class="field">Αναχώρηση (προαιρετικά) <input name="to" type="date" /></label>
+      </div>
+      <label class="field">Μήνυμα <textarea name="message" rows="6" required></textarea></label>
+      <button class="btn" type="submit" style="width: max-content">Αποστολή μηνύματος</button>
+      <p class="small muted">Το κουμπί ανοίγει το email σας με το μήνυμα έτοιμο για αποστολή.</p>
+    </form>
+
+    <aside class="side info">
+      <div>
+        <div class="label">Email</div>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+      </div>
+      <div>
+        <div class="label">Τηλέφωνο</div>
+        {site.phoneHref ? <a href={site.phoneHref}>{site.phoneDisplay}</a> : <span>{site.phoneDisplay}</span>}
+      </div>
+      {stays.map((s) => (
+        <div>
+          <div class="label">{s.title}</div>
+          <span>{s.area}, {s.place}</span><br />
+          <a href={`/${s.slug}`} class="small">Δείτε το διαμέρισμα →</a>
+        </div>
+      ))}
+      <p class="small muted">Την ακριβή διεύθυνση και τις οδηγίες άφιξης τις στέλνουμε μετά την κράτηση.</p>
+    </aside>
+  </section>
+</Base>
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const d = new FormData(form);
+    const lines = [
+      `Όνομα: ${d.get('name')}`, `Email: ${d.get('email')}`,
+      d.get('phone') ? `Τηλέφωνο: ${d.get('phone')}` : '',
+      d.get('stay') ? `Διαμέρισμα: ${d.get('stay')}` : '',
+      d.get('from') ? `Ημερομηνίες: ${d.get('from')} έως ${d.get('to') || '?'}` : '',
+      '', String(d.get('message')),
+    ].filter((l, i) => l !== '' || i === 5);
+    location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent('Μήνυμα από το site')}&body=${encodeURIComponent(lines.join('\n'))}`;
+  });
+</script>
+<style>
+  .cform { display: flex; flex-direction: column; gap: 16px; background: var(--white); border: 1px solid var(--line); border-radius: 6px; padding: 32px; }
+  .cform__row { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); }
+  .cform textarea { padding: 12px; border: 1px solid var(--gray-warm); border-radius: 6px; font: 17px var(--sans); color: var(--ink); resize: vertical; }
+  .cform textarea:focus { outline: none; border: 2px solid var(--pine); }
+  .info { display: flex; flex-direction: column; gap: 24px; padding: 32px; background: var(--honey-light); border-radius: 6px; }
+  .info .label { margin-bottom: 4px; }
+  @media (max-width: 700px) { .cform, .info { padding: 24px; } }
+</style>

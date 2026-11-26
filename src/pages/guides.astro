@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { site } from '../data/site';
+import { stays, guides } from '../data/stays';
+const groups = [
+  ...stays.map((s) => ({ key: s.slug, title: s.place, sub: `Γύρω από το ${s.title}, ${s.area}`, theme: s.theme })),
+  { key: 'both', title: 'Πρακτικά', sub: 'Για να φτάσετε και να κινηθείτε εύκολα', theme: undefined },
+];
+---
+<Base title={`Οδηγοί περιοχής · ${site.name}`} description="Τι να δείτε, πού να φάτε και πώς να κινηθείτε στη Θεσσαλονίκη και στη Χαλκιδική.">
+  <PageHead label="Οδηγοί περιοχής" title="Πριν έρθετε"
+    lead="Τα δικά μας μέρη, όπως τα ζούμε εμείς: τι να δείτε, πού να φάτε και πώς να κινηθείτε στη Θεσσαλονίκη και στη Χαλκιδική." />
+
+  {groups.map((g) => (
+    <section class:list={['band', g.theme === 'sea' ? 'band--pine' : g.theme === 'city' ? 'band--honey' : 'band--gray']}>
+      <div class="wrap">
+        <h2>{g.title}</h2>
+        <p class="muted" style="margin: 4px 0 28px">{g.sub}</p>
+        <div class="grid">
+          {guides.filter((x) => x.place === g.key).map((x) => (
+            <article class="guide">
+              <div class="label">{x.tag}</div>
+              <h3 class="guide__t">{x.title}</h3>
+              <p class="small muted">{x.text}</p>
+              <span class="chip guide__soon">Σύντομα</span>
+            </article>
+          ))}
+        </div>
+        {stays.find((s) => s.slug === g.key) && (
+          <p style="margin-top: 24px"><a href={`/${g.key}`}>Δείτε το διαμέρισμα στην περιοχή →</a></p>
+        )}
+      </div>
+    </section>
+  ))}
+</Base>
+<style>
+  .guide { padding: 24px; background: var(--white); border-radius: 6px; display: flex; flex-direction: column; gap: 8px; }
+  .guide__t { font-size: 22px; }
+  .guide__soon { margin-top: auto; width: max-content; }
+</style>

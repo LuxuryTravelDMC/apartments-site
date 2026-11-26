@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Photo from '../components/Photo.astro';
+import { site } from '../data/site';
+import { stays, reviews } from '../data/stays';
+---
+<Base title={`Ο οικοδεσπότης · ${site.name}`} description={`Γνωρίστε τον οικοδεσπότη του ${site.name}.`}>
+  <PageHead label="Ο οικοδεσπότης" title={`Γεια, είμαι ${site.host.name}`} />
+
+  <section class="wrap host">
+    <div class="host__photo"><Photo alt="Φωτογραφία: εσύ" /></div>
+    <div class="host__text">
+      <p class="host__bio">{site.host.bio}</p>
+      <p>[Γιατί ξεκίνησες να φιλοξενείς και τι θέλεις να νιώσει ο επισκέπτης σου.]</p>
+      <p>[Πώς φροντίζεις τους επισκέπτες: π.χ. καλωσόρισμα, προτάσεις για την περιοχή, διαθεσιμότητα στο τηλέφωνο.]</p>
+      <p class="small muted">Μιλάω: {site.host.languages}</p>
+    </div>
+  </section>
+
+  <section class="band band--honey">
+    <div class="wrap">
+      <div class="label">Τι λένε για εμάς</div>
+      <h2 style="margin: 8px 0 28px">Οι επισκέπτες για τους οικοδεσπότες</h2>
+      <div class="grid">
+        {reviews.filter((r) => !r.text.startsWith('[')).map((r) => (
+          <figure class="review">
+            <blockquote>{r.text}</blockquote>
+            <figcaption class="small muted">{r.who} · {r.stay}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <h2 style="margin-bottom: 28px">Τα σπίτια μας</h2>
+    <div class="grid">
+      {stays.map((s) => (
+        <a href={`/${s.slug}`} class:list={['mini', `mini--${s.theme}`]}>
+          <div class="mini__photo"><Photo name={s.cardPhoto} alt={`${s.title}, ${s.place}`} sizes="(max-width: 700px) 100vw, 600px" /></div>
+          <div class="mini__body"><div class="label">{s.place} · {s.area}</div><div class="mini__t">{s.title}</div></div>
+        </a>
+      ))}
+    </div>
+    <p style="margin-top: 40px"><a class="btn" href="/contact">Επικοινωνήστε μαζί μου</a></p>
+  </section>
+</Base>
+<style>
+  .host { display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start; padding-top: 24px; }
+  .host__photo { flex: 0 0 360px; height: 420px; }
+  .host__photo > :global(*) { height: 100%; }
+  .host__text { flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 16px; max-width: 680px; }
+  .host__bio { font: 500 24px/1.4 var(--serif); }
+  .review { margin: 0; padding: 28px; background: var(--white); border-radius: 6px; }
+  .review blockquote { margin: 0 0 12px; font: 20px var(--serif); }
+  .mini { display: block; border-radius: 6px; overflow: hidden; text-decoration: none; color: var(--ink); border: 1px solid var(--line); }
+  .mini--city { background: var(--honey-light); }
+  .mini--sea { background: var(--pine-light); }
+  .mini:hover { color: var(--ink); border-color: var(--gray-warm); }
+  .mini__photo { height: 240px; }
+  .mini__photo > :global(*) { height: 100%; border-radius: 0; }
+  .mini__body { padding: 20px 24px; }
+  .mini__t { font: 500 24px var(--serif); margin-top: 4px; }
+  @media (max-width: 700px) { .host__photo { flex-basis: 100%; height: 300px; } }
+</style>

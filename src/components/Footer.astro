@@ -9,7 +9,7 @@ import { stays } from '../data/stays';
       <p class="foot__soft">{stays.map((s) => s.place).join(' · ')}</p>
     </div>
     <div>
-      <div class="foot__h">Επικοινωνία</div>
+      <div class="foot__h"><a href="/contact">Επικοινωνία</a></div>
       <div><a href={`mailto:${site.email}`}>{site.email}</a></div>
       <div>{site.phoneHref ? <a href={site.phoneHref}>{site.phoneDisplay}</a> : site.phoneDisplay}</div>
     </div>

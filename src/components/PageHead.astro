@@ -1,0 +1,17 @@
+---
+// The top of a simple page: small label, big title, short intro.
+interface Props { label: string; title: string; lead?: string }
+const { label, title, lead } = Astro.props;
+---
+<section class="wrap ph">
+  <div class="label">{label}</div>
+  <h1 class="ph__t">{title}</h1>
+  {lead && <p class="ph__lead muted">{lead}</p>}
+  <slot />
+</section>
+<style>
+  .ph { padding-top: 64px; }
+  .ph__t { font-style: italic; font-weight: 500; font-size: clamp(48px, 7vw, 88px); line-height: 1.05; margin: 8px 0 16px; }
+  .ph__lead { max-width: 640px; }
+  @media (max-width: 700px) { .ph { padding-top: 40px; } }
+</style>
