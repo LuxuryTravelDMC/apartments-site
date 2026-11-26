@@ -3,10 +3,11 @@ import Base from '../layouts/Base.astro';
 import StayCard from '../components/StayCard.astro';
 import BookingBox from '../components/BookingBox.astro';
 import Photo from '../components/Photo.astro';
+import ReviewCarousel from '../components/ReviewCarousel.astro';
 import Eagle3D from '../components/Eagle3D.astro';
 import Blueprint from '../components/Blueprint.astro';
 import { site } from '../data/site';
-import { stays, guides, reviews, ratings } from '../data/stays';
+import { stays, guides, ratings } from '../data/stays';
 ---
 <Base title={`${site.name} · Διαμερίσματα σε Θεσσαλονίκη και Χαλκιδική`}>
   <section class="wrap hero">
@@ -56,15 +57,7 @@ import { stays, guides, reviews, ratings } from '../data/stays';
     <div class="label">Κριτικές</div>
     <h2 style="margin: 8px 0 12px">Τι λένε οι επισκέπτες</h2>
     <p class="muted" style="margin-bottom: 32px">{ratings}</p>
-    <div class="grid">
-      {reviews.map((r) => (
-        <figure class="review">
-          <div class="review__stars" aria-hidden="true">★★★★★</div>
-          <blockquote>{r.text}</blockquote>
-          <figcaption class="small muted">{r.who} · {r.stay}</figcaption>
-        </figure>
-      ))}
-    </div>
+    <ReviewCarousel />
   </section>
 
   <section id="guides" class="band band--honey">
