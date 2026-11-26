@@ -1,0 +1,18 @@
+---
+// The Black Bird mark: a geometric eagle (Bauhaus shapes, inspired by the
+// eagle of Pontus), black on a honey-gold circle. Used in the menu.
+interface Props { size?: number; class?: string }
+const { size = 34, class: cls } = Astro.props;
+---
+<svg class={cls} width={size} height={size} viewBox="0 0 240 240" aria-hidden="true">
+  <circle cx="120" cy="120" r="112" fill="#E9A92F"/>
+  <path d="M104 128 L22 128 A82 82 0 0 1 104 46 Z" fill="#1F1C1A"/>
+  <path d="M136 128 L218 128 A82 82 0 0 0 136 46 Z" fill="#1F1C1A"/>
+  <path d="M104 128 L48 128 A56 56 0 0 1 104 72" fill="none" stroke="#E9A92F" stroke-width="6"/>
+  <path d="M136 128 L192 128 A56 56 0 0 0 136 72" fill="none" stroke="#E9A92F" stroke-width="6"/>
+  <path d="M120 158 L90 212 L150 212 Z" fill="#1F1C1A"/>
+  <path d="M102 176 L102 96 A18 18 0 0 1 138 96 L138 176 Z" fill="#1F1C1A"/>
+  <circle cx="122" cy="64" r="18" fill="#1F1C1A"/>
+  <path d="M106 58 L86 68 L106 74 Z" fill="#C24F2B"/>
+  <circle cx="116" cy="60" r="4" fill="#E9A92F"/>
+</svg>
