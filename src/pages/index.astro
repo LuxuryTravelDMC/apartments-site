@@ -4,7 +4,6 @@ import StayCard from '../components/StayCard.astro';
 import BookingBox from '../components/BookingBox.astro';
 import Photo from '../components/Photo.astro';
 import ReviewCarousel from '../components/ReviewCarousel.astro';
-import Eagle3D from '../components/Eagle3D.astro';
 import { site } from '../data/site';
 import { stays, guides, ratings, reviewSources } from '../data/stays';
 ---
@@ -16,7 +15,6 @@ import { stays, guides, ratings, reviewSources } from '../data/stays';
         <h1 class="hero__title">Πόλη και θάλασσα</h1>
         <p class="hero__lead muted">Δύο διαμερίσματα, ένα στη Θεσσαλονίκη κι ένα στη Χαλκιδική. Κλείστε απευθείας με τον ιδιοκτήτη.</p>
       </div>
-      <div class="hero__eagle"><Eagle3D /></div>
     </div>
     <div class="hero__photo"><Photo name={site.heroPhoto} alt="Το υπνοδωμάτιο του Phoenix Apartment στη Θεσσαλονίκη" eager sizes="(max-width: 1280px) 100vw, 1232px" /></div>
     <BookingBox layout="bar" />
@@ -74,7 +72,6 @@ import { stays, guides, ratings, reviewSources } from '../data/stays';
   .hero { padding-top: 64px; }
   .hero__top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; }
   .hero__text { flex: 999 1 520px; min-width: 0; }
-  .hero__eagle { flex: 0 0 260px; margin-bottom: 24px; }
   .hero__title { font-style: italic; font-weight: 500; font-size: clamp(56px, 9vw, 120px); line-height: 1; margin: 8px 0 16px; }
   .hero__lead { max-width: 620px; margin-bottom: 40px; }
   .hero__photo { height: 520px; }
@@ -93,7 +90,6 @@ import { stays, guides, ratings, reviewSources } from '../data/stays';
   @media (max-width: 700px) {
     .hero { padding-top: 40px; }
     .hero__photo { height: 300px; }
-    .hero__eagle { display: none; }
-    .host__photo { flex-basis: 100%; height: 260px; }
+      .host__photo { flex-basis: 100%; height: 260px; }
   }
 </style>
