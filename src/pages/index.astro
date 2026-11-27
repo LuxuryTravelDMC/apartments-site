@@ -164,7 +164,8 @@ const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score &
   document.querySelectorAll<HTMLElement>('[data-rotate]').forEach((box) => {
     const items = [...box.querySelectorAll<HTMLElement>('.rq')];
     const dots = [...box.querySelectorAll<HTMLElement>('.rq__dots span')];
-    if (items.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // Changes every 5 seconds. With "reduce motion" on, it still changes, just without the fade.
+    if (items.length < 2) return;
     let cur = 0, hold = false;
     box.addEventListener('mouseenter', () => (hold = true));
     box.addEventListener('mouseleave', () => (hold = false));

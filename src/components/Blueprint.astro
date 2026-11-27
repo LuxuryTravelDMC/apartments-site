@@ -23,7 +23,6 @@ const tabs = ['Υπνοδωμάτιο', 'Σαλόνι', 'Κουζίνα', 'Μπ�
       bp.dispatchEvent(new CustomEvent('bp:zone', { bubbles: true, detail: k }));
     };
     bp.querySelectorAll<HTMLButtonElement>('[data-tab]').forEach((b) => b.addEventListener('click', () => show(Number(b.dataset.tab))));
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (bp.dataset.sync) {
       document.addEventListener('collage:tick', () => show(Number(bp.dataset.active) + 1));
     } else {
