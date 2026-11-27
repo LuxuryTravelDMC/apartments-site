@@ -101,7 +101,7 @@ const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score &
     <h2 style="margin: 8px 0 12px">Τι λένε οι επισκέπτες</h2>
     <p class="muted ratings" style="margin-bottom: 32px">
       {ratings.map((r, i) => (
-        <span>{i > 0 && ' · '}{r.score} στο {reviewSources[r.src] ? <a href={reviewSources[r.src]} target="_blank" rel="noopener">{r.src} ↗</a> : r.src}{r.count && ` ${r.count}`}</span>
+        <span>{i > 0 && ' · '}{r.score ? `${r.score} στο ` : 'και στο '}{reviewSources[r.src] ? <a href={reviewSources[r.src]} target="_blank" rel="noopener">{r.src} ↗</a> : r.src}{r.count && ` ${r.count}`}</span>
       ))}
     </p>
     <ReviewCarousel />
