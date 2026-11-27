@@ -4,7 +4,6 @@ import StayCard from '../components/StayCard.astro';
 import BookingBox from '../components/BookingBox.astro';
 import Photo from '../components/Photo.astro';
 import ReviewCarousel from '../components/ReviewCarousel.astro';
-import Eagle3D from '../components/Eagle3D.astro';
 import Blueprint from '../components/Blueprint.astro';
 import { site } from '../data/site';
 import { stays, guides, ratings, reviews, reviewSources } from '../data/stays';
@@ -26,7 +25,6 @@ const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score &
           </button>
         ))}
       </div>
-      <div class="collage__eagle"><Eagle3D /></div>
       <div class="hs__stage">
       {stays.map((st, i) => {
         const rs = reviewsFor(st.place);
@@ -224,7 +222,6 @@ const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score &
   .collage__score b { font-size: 40px; font-weight: 600; color: var(--ink); letter-spacing: -0.03em; }
   .collage__review blockquote { margin: 12px 0 8px; font-size: 18px; line-height: 1.35; }
   .collage__review figcaption { font-size: 13px; color: var(--ink-2); }
-  .collage__eagle { position: absolute; left: 4%; top: 64px; width: 150px; z-index: 1; }
   .hero :global(.book--bar) { margin-top: 40px; margin-left: 0; margin-right: 0; }
   .big { font-size: clamp(44px, 6vw, 80px); }
   .big sup { font-size: .3em; font-weight: 500; vertical-align: top; margin-left: 4px; color: var(--ink-2); }
@@ -241,8 +238,7 @@ const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score &
     .collage { height: auto; display: flex; flex-direction: column; gap: 16px; }
     .collage__photo, .collage__bp, .collage__review, .collage__info, .collage__price { position: static; width: 100%; }
     .collage__photo { height: 320px; }
-    .collage__eagle { display: none; }
-  }
+    }
   .stays { display: grid; gap: 32px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
   .why h3 { font-size: 24px; margin-bottom: 8px; }
   .review { margin: 0; padding: 28px; background: var(--white); border: 1px solid var(--line); border-radius: 6px; }
