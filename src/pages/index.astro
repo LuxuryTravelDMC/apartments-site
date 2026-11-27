@@ -240,10 +240,10 @@ const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score &
   .collage__price b { font-size: 36px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; }
   .collage__photo { position: absolute; right: 0; top: 0; width: 66%; height: 500px; }
   .collage__photo > :global(*) { height: 100%; }
-  .zp { display: grid; }
-  .zp__item { grid-area: 1 / 1; height: 100%; opacity: 0; transform: scale(1.03); transition: opacity .9s ease-in-out, transform 1.2s ease-out; }
+  .zp { display: grid; grid-template: minmax(0, 1fr) / minmax(0, 1fr); overflow: hidden; border-radius: 6px; }
+  .zp__item { grid-area: 1 / 1; height: 100%; min-height: 0; overflow: hidden; opacity: 0; transform: scale(1.03); transition: opacity .9s ease-in-out, transform 1.2s ease-out; }
   .zp__item[data-on='true'] { opacity: 1; transform: none; }
-  .zp__item > :global(*) { height: 100%; }
+  .zp__item > :global(*) { height: 100%; width: 100%; object-fit: cover; }
   @media (prefers-reduced-motion: reduce) { .zp__item { transition: none; transform: none; } }
   .collage__bp { position: absolute; left: 0; top: 150px; width: 42%; z-index: 2; box-shadow: 0 18px 40px rgb(36 94 64 / .25); }
   .collage__review { position: absolute; right: 6%; bottom: 0; width: 360px; padding: 22px 24px 16px; background: var(--white); border-radius: 6px; z-index: 3; box-shadow: 0 18px 40px rgb(54 48 43 / .18); display: grid; }
