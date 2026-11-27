@@ -19,7 +19,7 @@ export const site = {
     text: 'π.χ. έκπτωση ή δώρο καλωσορίσματος για όσους κλείνουν εδώ.',
   },
   // Big photo at the top of the homepage (name of a photo in photos/).
-  heroPhoto: 'thessaloniki/bedroom',
+  heroPhoto: 'home/hero', // placeholder photo for the big hero, to be replaced
   paymentMethod: '[ΤΡΟΠΟΣ ΠΛΗΡΩΜΗΣ]',
   // true: search engines are asked not to list the site. When the site goes
   // live, set this to false and delete the first block of public/_headers.

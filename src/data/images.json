@@ -1,4 +1,12 @@
 {
+  "home/hero": {
+    "widths": [
+      480,
+      960,
+      1600
+    ],
+    "ratio": 1.5003
+  },
   "thessaloniki/balcony": {
     "widths": [
       480,

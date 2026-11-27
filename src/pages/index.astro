@@ -11,13 +11,19 @@ import { stays, guides, ratings, reviews } from '../data/stays';
 const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score && r.stay === place);
 ---
 <Base title={`${site.name} · Διαμερίσματα σε Θεσσαλονίκη και Χαλκιδική`}>
-  <section class="wrap hero">
-    <div class="hero__text">
+  <section class="bighero">
+    <div class="bighero__img"><Photo name={site.heroPhoto} alt="" eager sizes="100vw" /></div>
+    <div class="wrap bighero__text">
       <div class="label">Θεσσαλονίκη · Χαλκιδική</div>
       <h1 class="hero__title"><span class="hw" data-word="0">Πόλη</span> και <span class="hw" data-word="1">θάλασσα</span>.</h1>
       <p class="hero__lead">Δύο διαμερίσματα, ένα στη Θεσσαλονίκη κι ένα στη Χαλκιδική. Κλείστε απευθείας με τον ιδιοκτήτη.</p>
-      <div class="hero__cta"><a class="btn btn--dark" href="#stays">Δείτε τα σπίτια</a><a class="hero__link" href="#book">Ελέγξτε διαθεσιμότητα →</a></div>
+      <div class="hero__cta"><a class="btn btn--honey" href="#apartments">Τα διαμερίσματά μας</a><a class="hero__link" href="#book">Ελέγξτε διαθεσιμότητα →</a></div>
     </div>
+  </section>
+
+  <section class="wrap hero" id="apartments">
+    <div class="label">Δύο σπίτια, μία φιλοξενία</div>
+    <h2 class="apts__t">Τα διαμερίσματά μας</h2>
     <div class="hs" data-hs data-active="0">
       <div class="hs__tabs" role="tablist" aria-label="Διαλέξτε σπίτι">
         {stays.map((st, i) => (
@@ -163,8 +169,19 @@ const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score &
   });
 </script>
 <style>
-  .hero { padding-top: 56px; }
-  .hero__text { max-width: 980px; }
+  .bighero { position: relative; min-height: min(88vh, 860px); display: flex; align-items: flex-end; color: var(--white); overflow: hidden; }
+  .bighero__img { position: absolute; inset: 0; }
+  .bighero__img :global(img) { width: 100%; height: 100%; object-fit: cover; border-radius: 0; }
+  .bighero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(31 28 26 / .05) 30%, rgb(31 28 26 / .72) 100%); }
+  .bighero__text { position: relative; z-index: 1; width: 100%; padding-bottom: 72px; }
+  .bighero .label { color: var(--white); }
+  .bighero .label::before { color: var(--honey); }
+  .bighero .hero__title { color: var(--white); text-shadow: 0 2px 30px rgb(0 0 0 / .25); }
+  .bighero .hero__lead { color: rgb(255 255 255 / .9); }
+  .bighero .hero__link { color: var(--white); }
+  .bighero .hero__cta { margin-bottom: 0; }
+  .apts__t { font-size: clamp(44px, 6vw, 88px); line-height: .95; letter-spacing: -0.04em; margin: 12px 0 36px; }
+  .hero { padding-top: 96px; }
   .hero__title { font-weight: 600; font-size: clamp(56px, 10vw, 136px); line-height: .92; letter-spacing: -0.04em; margin: 14px 0 20px; }
   .hero__lead { max-width: 560px; font-size: 20px; color: var(--ink-2); }
   .hero__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin: 28px 0 48px; }
@@ -251,7 +268,9 @@ const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score &
   .host__photo { flex: 0 0 320px; height: 320px; }
   .host__text { flex: 999 1 420px; min-width: 0; }
   @media (max-width: 700px) {
-    .hero { padding-top: 32px; }
+    .hero { padding-top: 56px; }
+    .bighero { min-height: 78vh; }
+    .bighero__text { padding-bottom: 40px; }
     .host__photo { flex-basis: 100%; height: 260px; }
   }
 </style>
