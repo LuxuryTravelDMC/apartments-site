@@ -1,11 +1,14 @@
 ---
 // A full-width colour block with a very big title and big links (editorial style).
-interface Props { title: string; tone?: 'honey' | 'pine' | 'ink' }
-const { title, tone = 'honey' } = Astro.props;
+interface Props { title: string; tone?: 'honey' | 'pine' | 'ink'; button?: { href: string; label: string } }
+const { title, tone = 'honey', button } = Astro.props;
 ---
 <section class:list={['cta', `cta--${tone}`]}>
   <div class="wrap cta__in">
-    <h2 class="cta__t">{title}</h2>
+    <div class="cta__head">
+      <h2 class="cta__t">{title}</h2>
+      {button && <a href={button.href} class:list={['btn', 'cta__btn', tone === 'honey' ? 'btn--dark' : 'btn--honey']}>{button.label} →</a>}
+    </div>
     <div class="cta__links"><slot /></div>
   </div>
 </section>
@@ -23,5 +26,6 @@ const { title, tone = 'honey' } = Astro.props;
   .cta__links :global(a > small) { font-size: 15px; margin-top: 6px; opacity: .85; }
   .cta--honey .cta__links :global(a:hover > span) { color: var(--white); }
   .cta--pine .cta__links :global(a:hover > span), .cta--ink .cta__links :global(a:hover > span) { color: var(--honey); }
+  .cta__btn { margin-top: 32px; min-height: 56px; padding: 0 28px; font-size: 17px; }
   @media (max-width: 700px) { .cta__in { padding-top: 64px; padding-bottom: 64px; } }
 </style>

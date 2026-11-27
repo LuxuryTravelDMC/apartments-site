@@ -98,7 +98,7 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
     </div>
   </section>
 
-  <CtaBlock title="Κλείστε απευθείας." tone={s.theme === 'sea' ? 'pine' : 'honey'}>
+  <CtaBlock title="Κλείστε απευθείας." tone={s.theme === 'sea' ? 'pine' : 'honey'} button={{ href: '/contact', label: 'Επικοινωνήστε μαζί μας' }}>
     <a href="#book"><span>Ημερομηνίες</span><small>Δείτε διαθεσιμότητα για το {s.title}</small></a>
     {other && <a href={`/${other.slug}`}><span>{other.place}</span><small>Το άλλο μας σπίτι · {other.title}</small></a>}
   </CtaBlock>
