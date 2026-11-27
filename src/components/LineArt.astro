@@ -1,0 +1,41 @@
+---
+// Fine-line drawings for the two homes: the White Tower for Thessaloniki,
+// sea, beach and umbrella for Chalkidiki. One stroke weight, no fills;
+// sun and flag in honey. They draw themselves in when their tab is chosen.
+interface Props { kind: 'city' | 'sea' }
+const { kind } = Astro.props;
+---
+<svg class="la" viewBox="0 0 420 150" role="img" aria-label={kind === 'city' ? 'Σχέδιο: ο Λευκός Πύργος' : 'Σχέδιο: θάλασσα, παραλία και ομπρέλα'} fill="none" stroke-linecap="round" stroke-linejoin="round">
+  {kind === 'city' ? (
+    <g>
+      <path pathLength="1" d="M10 140 H332" />
+      <path pathLength="1" d="M152 140 V58 M228 140 V58 M152 140 Q190 147 228 140" />
+      <path pathLength="1" d="M152 98 Q190 105 228 98 M152 62 Q190 68 228 62" />
+      <path pathLength="1" d="M146 58 H234 M146 58 V48 H154 V53 H162 V48 H170 V53 H178 V48 H186 V53 H194 V48 H202 V53 H210 V48 H218 V53 H226 V48 H234 V58" />
+      <path pathLength="1" d="M172 48 V24 M208 48 V24 M168 24 H212 M168 24 V16 H174 V20 H180 V16 H186 V20 H192 V16 H198 V20 H204 V16 H212 V24" />
+      <path pathLength="1" d="M190 16 V1" />
+      <path pathLength="1" class="la__accent" d="M190 2 Q198 -1 207 4 Q198 9 190 8" />
+      <path pathLength="1" d="M172 76 V84 M190 72 V82 M208 76 V84 M180 112 V120 M200 112 V120 M190 32 V40" />
+      <path pathLength="1" d="M184 140 V129 Q190 122 196 129 V140" />
+      <path pathLength="1" d="M114 140 V121 M100 120 Q96 106 110 103 Q114 92 127 98 Q140 97 137 110 Q143 121 129 123 Q118 127 100 120 Z" />
+      <path pathLength="1" d="M266 140 V123 M254 122 Q251 110 263 108 Q268 99 279 104 Q290 104 287 115 Q291 124 280 125 Q270 128 254 122 Z" />
+      <path pathLength="1" d="M310 140 V102 M304 102 H316 M306 102 Q310 94 314 102" />
+      <path pathLength="1" d="M338 134 q8 -5 16 0 t16 0 t16 0 M346 144 q8 -5 16 0 t16 0" />
+      <path pathLength="1" d="M52 34 q6 -6 12 0 q6 -6 12 0 M80 48 q4 -4 8 0 q4 -4 8 0" />
+    </g>
+  ) : (
+    <g>
+      <path pathLength="1" d="M10 70 H400" />
+      <path pathLength="1" class="la__accent" d="M314 38 a16 16 0 1 0 32 0 a16 16 0 1 0 -32 0" />
+      <path pathLength="1" d="M250 70 Q261 76 276 70 M262 70 V46 L251 68 M264 50 L274 68" />
+      <path pathLength="1" d="M20 82 q10 -5 20 0 t20 0 t20 0 t20 0 M210 86 q10 -5 20 0 t20 0 t20 0 t20 0 t20 0 t20 0 M300 80 q10 -5 20 0 t20 0 t20 0" />
+      <path pathLength="1" d="M10 110 Q120 99 230 105 T400 101" />
+      <path pathLength="1" d="M171 134 L180 38" />
+      <path pathLength="1" d="M132 64 Q170 20 228 52" />
+      <path pathLength="1" d="M132 64 Q144 57 156 62 Q168 55 180 60 Q192 52 204 57 Q216 49 228 52" />
+      <path pathLength="1" d="M180 38 L156 62 M180 38 L180 60 M180 38 L204 57" />
+      <path pathLength="1" d="M202 124 H246 L256 112 M208 124 L205 132 M240 124 L243 132" />
+      <path pathLength="1" d="M56 30 q6 -6 12 0 q6 -6 12 0 M86 44 q4 -4 8 0 q4 -4 8 0" />
+    </g>
+  )}
+</svg>
