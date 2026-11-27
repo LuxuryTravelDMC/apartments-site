@@ -197,6 +197,8 @@ const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score &
   .bighero .hero__lead { color: rgb(255 255 255 / .9); }
   .bighero .hero__link { color: var(--white); }
   .bighero .hero__cta { margin-bottom: 0; }
+  /* "Τα καταλύματα" in the menu lands with the small label just under the menu */
+  #apartments { scroll-margin-top: 30px; }
   .apts__t { font-size: clamp(44px, 6vw, 88px); line-height: .95; letter-spacing: -0.04em; margin: 12px 0 36px; }
   .hero { padding-top: 96px; }
   .hero__title { font-weight: 600; font-size: clamp(56px, 10vw, 136px); line-height: .92; letter-spacing: -0.04em; margin: 14px 0 20px; }
@@ -289,6 +291,7 @@ const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score &
   @media (max-width: 700px) {
     .hero { padding-top: 56px; }
     .bighero { min-height: 78vh; }
+    #apartments { scroll-margin-top: 40px; }
     .bighero__text { padding-bottom: 72px; }
     .bookstrip { margin-top: -48px; }
     .host__photo { flex-basis: 100%; height: 260px; }
