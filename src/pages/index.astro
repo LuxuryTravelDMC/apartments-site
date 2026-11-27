@@ -16,7 +16,6 @@ const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score &
       <div class="label">Θεσσαλονίκη · Χαλκιδική</div>
       <h1 class="hero__title"><span class="hw" data-word="0">Πόλη</span> και <span class="hw" data-word="1">θάλασσα</span>.</h1>
       <p class="hero__lead">Δύο διαμερίσματα, ένα στη Θεσσαλονίκη κι ένα στη Χαλκιδική. Κλείστε απευθείας με τον ιδιοκτήτη.</p>
-      <div class="hero__cta"><a class="btn btn--honey" href="#apartments">Τα διαμερίσματά μας</a><a class="hero__link" href="#book">Ελέγξτε διαθεσιμότητα →</a></div>
     </div>
   </section>
   <div class="wrap bookstrip"><BookingBox layout="bar" /></div>
@@ -197,8 +196,6 @@ const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score &
   .bighero .label::before { color: var(--honey); }
   .bighero .hero__title { color: var(--white); text-shadow: 0 2px 30px rgb(0 0 0 / .25); }
   .bighero .hero__lead { color: rgb(255 255 255 / .9); }
-  .bighero .hero__link { color: var(--white); }
-  .bighero .hero__cta { margin-bottom: 0; }
   /* "Τα καταλύματα" in the menu lands with the small label just under the menu */
   #apartments { scroll-margin-top: 30px; }
   /* Fine-line drawing in the empty corner above the card; draws itself in */
@@ -213,8 +210,6 @@ const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score &
   .hero { padding-top: 96px; }
   .hero__title { font-weight: 600; font-size: clamp(56px, 10vw, 136px); line-height: .92; letter-spacing: -0.04em; margin: 14px 0 20px; }
   .hero__lead { max-width: 560px; font-size: 20px; color: var(--ink-2); }
-  .hero__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin: 28px 0 48px; }
-  .hero__link { color: var(--ink); font-weight: 500; }
   .hs { position: relative; }
   .hs__tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; position: relative; z-index: 4; }
   .hs__tab { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-height: 56px; padding: 10px 20px; border-radius: 6px; border: 1.5px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer; font-family: var(--sans); text-align: left; transition: background .25s, color .25s; }
