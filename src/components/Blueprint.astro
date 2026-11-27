@@ -16,7 +16,12 @@ const tabs = ['Υπνοδωμάτιο', 'Σαλόνι', 'Κουζίνα', 'Μπ�
 <script>
   document.querySelectorAll<HTMLElement>('[data-bp]').forEach((bp) => {
     const n = bp.querySelectorAll('[data-tab]').length;
-    const show = (i: number) => (bp.dataset.active = String(((i % n) + n) % n));
+    const show = (i: number) => {
+      const k = ((i % n) + n) % n;
+      bp.dataset.active = String(k);
+      // tell the page which room is shown (the collage photo follows it)
+      bp.dispatchEvent(new CustomEvent('bp:zone', { bubbles: true, detail: k }));
+    };
     bp.querySelectorAll<HTMLButtonElement>('[data-tab]').forEach((b) => b.addEventListener('click', () => show(Number(b.dataset.tab))));
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (bp.dataset.sync) {

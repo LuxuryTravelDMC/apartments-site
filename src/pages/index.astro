@@ -39,7 +39,15 @@ const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score &
         const photo = st.photos[0];
         return (
           <div class:list={['collage', `collage--${st.theme}`, !st.size && 'collage--nobp']} role="tabpanel" id={`hs-panel-${i}`} aria-labelledby={`hs-tab-${i}`} data-hs-panel={i}>
-            <div class="collage__photo"><Photo name={photo.name} alt={`${st.title}: ${photo.alt}`} eager={i === 0} sizes="(max-width: 900px) 100vw, 760px" /></div>
+            {st.zonePhotos ? (
+              <div class="collage__photo zp" data-zp>
+                {st.zonePhotos.map((z, k) => (
+                  <div class="zp__item" data-on={k === 0 ? 'true' : 'false'}><Photo name={z.name} alt={`${st.title}: ${z.alt}`} eager={i === 0 && k === 0} sizes="(max-width: 900px) 100vw, 760px" /></div>
+                ))}
+              </div>
+            ) : (
+              <div class="collage__photo"><Photo name={photo.name} alt={`${st.title}: ${photo.alt}`} eager={i === 0} sizes="(max-width: 900px) 100vw, 760px" /></div>
+            )}
             {st.size ? (
               <div class="collage__bp"><Blueprint name={st.title} size={st.size} sync /></div>
             ) : (
@@ -119,6 +127,16 @@ const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score &
   </section>
 </Base>
 <script>
+  // The collage photo follows the room lit in the drawing (bp:zone event).
+  document.querySelectorAll<HTMLElement>('.collage').forEach((col) => {
+    const items = [...col.querySelectorAll<HTMLElement>('.zp__item')];
+    if (!items.length) return;
+    col.addEventListener('bp:zone', (e) => {
+      const k = (e as CustomEvent<number>).detail;
+      items.forEach((it, j) => (it.dataset.on = String(j === k)));
+    });
+  });
+
   // Hero switch: the buttons swap the whole collage between the two homes,
   // highlight the matching word of the title and preselect the booking box.
   document.querySelectorAll<HTMLElement>('[data-hs]').forEach((hs) => {
@@ -221,6 +239,11 @@ const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score &
   .collage__price b { font-size: 36px; font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; }
   .collage__photo { position: absolute; right: 0; top: 0; width: 66%; height: 500px; }
   .collage__photo > :global(*) { height: 100%; }
+  .zp { display: grid; }
+  .zp__item { grid-area: 1 / 1; height: 100%; opacity: 0; transform: scale(1.03); transition: opacity .9s ease-in-out, transform 1.2s ease-out; }
+  .zp__item[data-on='true'] { opacity: 1; transform: none; }
+  .zp__item > :global(*) { height: 100%; }
+  @media (prefers-reduced-motion: reduce) { .zp__item { transition: none; transform: none; } }
   .collage__bp { position: absolute; left: 0; top: 150px; width: 42%; z-index: 2; box-shadow: 0 18px 40px rgb(36 94 64 / .25); }
   .collage__review { position: absolute; right: 6%; bottom: 0; width: 360px; padding: 22px 24px 16px; background: var(--white); border-radius: 6px; z-index: 3; box-shadow: 0 18px 40px rgb(54 48 43 / .18); display: grid; }
   .rq { grid-area: 1 / 1; margin: 0; opacity: 0; transform: translateY(10px); transition: opacity .8s ease, transform .9s cubic-bezier(.2,.7,.2,1); pointer-events: none; }

@@ -27,6 +27,8 @@ export interface Stay {
   photos: { name?: string; alt: string }[];
   cardPhoto?: string; // photo for the card on the homepage
   size?: string;      // square metres, shown with the room drawing
+  // One photo per room of the drawing, in its order: bedroom, living room, kitchen, bathroom.
+  zonePhotos?: { name: string; alt: string }[];
   rating?: { score: string; source: string; count: string };
   nearby: { name: string; time: string }[];
   mapQuery: string;
@@ -69,6 +71,12 @@ export const stays: Stay[] = [
     ],
     cardPhoto: 'thessaloniki/dining',
     size: '40',
+    zonePhotos: [
+      { name: 'thessaloniki/bedroom', alt: 'Υπνοδωμάτιο' },
+      { name: 'thessaloniki/kitchen', alt: 'Σαλόνι' }, // placeholder until there is a photo of the living room
+      { name: 'thessaloniki/dining', alt: 'Κουζίνα και τραπεζαρία' },
+      { name: 'thessaloniki/bathroom', alt: 'Μπάνιο' },
+    ],
     rating: { score: '10', source: 'Booking.com', count: '7 κριτικές' },
     nearby: [
       { name: 'Πλατεία Ηλιούπολης', time: '450 μ.' },
