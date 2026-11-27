@@ -32,6 +32,7 @@ export interface Stay {
   rating?: { score: string; source: string; count: string };
   nearby: { name: string; time: string }[];
   mapQuery: string;
+  geo: { lat: number; lng: number }; // map pin (from Google Maps)
   links: { airbnb: string; booking: string; vrbo: string };
   bookingEngineUrl: string;
 }
@@ -87,6 +88,7 @@ export const stays: Stay[] = [
       { name: 'Αεροδρόμιο Μακεδονία', time: '19 χλμ.' },
     ],
     mapQuery: 'Κοσμά Αιτωλού 9, Θεσσαλονίκη 564 30',
+    geo: { lat: 40.6714011, lng: 22.9330939 },
     links: { airbnb: '', booking: 'https://www.booking.com/hotel/gr/phoenix-studio-9.html', vrbo: '' },
     bookingEngineUrl: '',
   },
@@ -120,6 +122,7 @@ export const stays: Stay[] = [
       { name: 'Αεροδρόμιο Μακεδονία', time: '[Χ] χλμ.' },
     ],
     mapQuery: 'Καλόλιμνου 51, Νέα Μουδανιά 632 00',
+    geo: { lat: 40.2390307, lng: 23.2914585 },
     links: { airbnb: '', booking: '', vrbo: '' },
     bookingEngineUrl: '',
   },
