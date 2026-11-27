@@ -29,8 +29,8 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
     <div class="tagrow">{facts.map((f) => <span class="chip">{f}</span>)}</div>
 
     <div class="gallery">
-      <div class="gallery__big"><Photo name={big.name} alt={big.alt} eager sizes="(max-width: 700px) 100vw, 640px" /></div>
-      {small.map((p) => <div class="gallery__cell"><Photo name={p.name} alt={p.alt} sizes="(max-width: 700px) 50vw, 320px" /></div>)}
+      <div class="gallery__big" data-lb={big.name ? real.indexOf(big) : undefined}><Photo name={big.name} alt={big.alt} eager sizes="(max-width: 700px) 100vw, 640px" /></div>
+      {small.map((p) => <div class="gallery__cell" data-lb={p.name ? real.indexOf(p) : undefined}><Photo name={p.name} alt={p.alt} sizes="(max-width: 700px) 50vw, 320px" /></div>)}
       {real.length > 1 && <button type="button" class="btn btn--ghost gallery__all" data-open="all-photos">Όλες οι φωτογραφίες ({real.length})</button>}
       <a href="#book" class:list={['pricecard', `pricecard--${s.theme}`]}>
         <span class="pricecard__from">από</span>
@@ -44,7 +44,16 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
     {real.length > 1 && (
       <dialog id="all-photos" class="all" aria-label="Όλες οι φωτογραφίες">
         <form method="dialog"><button class="btn all__close">Κλείσιμο ✕</button></form>
-        <div class="all__grid">{real.map((p) => <figure><Photo name={p.name} alt={p.alt} sizes="(max-width: 700px) 100vw, 600px" /><figcaption class="small">{p.alt}</figcaption></figure>)}</div>
+        <div class="all__grid">{real.map((p, i) => <figure data-lb={i}><Photo name={p.name} alt={p.alt} sizes="(max-width: 700px) 100vw, 600px" /><figcaption class="small">{p.alt}</figcaption></figure>)}</div>
+      </dialog>
+    )}
+    {real.length > 0 && (
+      <dialog id="lightbox" class="lb" aria-label="Φωτογραφία">
+        <img class="lb__img" alt="" />
+        <form method="dialog"><button class="lb__btn lb__close" aria-label="Κλείσιμο">✕</button></form>
+        <button type="button" class="lb__btn lb__prev" aria-label="Προηγούμενη φωτογραφία">←</button>
+        <button type="button" class="lb__btn lb__next" aria-label="Επόμενη φωτογραφία">→</button>
+        <p class="lb__cap"><span class="lb__n"></span><span class="lb__t"></span></p>
       </dialog>
     )}
   </section>
@@ -95,6 +104,32 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
   </CtaBlock>
 </Base>
 <script>
+  // Lightbox: every photo (page gallery or the "all photos" grid) opens on its own,
+  // with arrows, keyboard (← →, Esc) and swipe.
+  const lb = document.getElementById('lightbox') as HTMLDialogElement | null;
+  if (lb) {
+    const pics = [...document.querySelectorAll<HTMLImageElement>('.all__grid img')];
+    const img = lb.querySelector<HTMLImageElement>('.lb__img')!;
+    let at = 0;
+    const show = (i: number) => {
+      at = (i + pics.length) % pics.length;
+      img.src = pics[at].getAttribute('src')!; img.alt = pics[at].alt;
+      lb.querySelector('.lb__n')!.textContent = `${at + 1} / ${pics.length}`;
+      lb.querySelector('.lb__t')!.textContent = pics[at].alt;
+    };
+    document.querySelectorAll<HTMLElement>('[data-lb]').forEach((el) => {
+      el.style.cursor = 'zoom-in';
+      el.addEventListener('click', () => { show(+el.dataset.lb!); if (!lb.open) lb.showModal(); });
+    });
+    lb.querySelector('.lb__prev')!.addEventListener('click', () => show(at - 1));
+    lb.querySelector('.lb__next')!.addEventListener('click', () => show(at + 1));
+    lb.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') show(at - 1); if (e.key === 'ArrowRight') show(at + 1); });
+    lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
+    let x0 = 0;
+    lb.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend', (e) => { const d = e.changedTouches[0].clientX - x0; if (Math.abs(d) > 40) show(at + (d < 0 ? 1 : -1)); });
+    if (pics.length < 2) lb.querySelectorAll<HTMLElement>('.lb__prev, .lb__next').forEach((b) => (b.hidden = true));
+  }
   document.querySelectorAll<HTMLButtonElement>('[data-open]').forEach((b) =>
     b.addEventListener('click', () => (document.getElementById(b.dataset.open!) as HTMLDialogElement)?.showModal()));
 </script>
@@ -120,6 +155,23 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
   .all__grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
   .all figure { margin: 0; }
   .all figure :global(img) { height: auto; }
+  .lb { width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 56px 80px 64px; border: 0; background: rgb(28 25 22 / .98); color: #fff; }
+  .lb[open] { display: grid; place-items: center; }
+  .lb::backdrop { background: transparent; }
+  .lb__img { max-width: 100%; max-height: calc(100vh - 120px); width: auto; height: auto; object-fit: contain; border-radius: 4px; }
+  .lb form { position: absolute; top: 14px; right: 14px; margin: 0; }
+  .lb__btn { width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgb(255 255 255 / .35); background: rgb(255 255 255 / .08); color: #fff; font-size: 20px; cursor: pointer; transition: background .2s; }
+  .lb__btn:hover { background: rgb(255 255 255 / .2); }
+  .lb__prev, .lb__next { position: absolute; top: 50%; translate: 0 -50%; }
+  .lb__prev { left: 16px; } .lb__next { right: 16px; }
+  .lb__cap { position: absolute; left: 0; right: 0; bottom: 18px; margin: 0; text-align: center; font-size: 15px; color: rgb(255 255 255 / .85); }
+  .lb__n { margin-right: 12px; color: var(--honey); font-variant-numeric: tabular-nums; }
+  .all figure { cursor: zoom-in; }
+  @media (max-width: 700px) {
+    .lb { padding: 64px 8px 72px; }
+    .lb__prev, .lb__next { top: auto; bottom: 10px; translate: none; }
+    .lb__cap { bottom: 72px; padding: 0 16px; }
+  }
   .all figcaption { margin-top: 6px; color: var(--ink-2); }
   .lead { font-size: clamp(20px, 2vw, 24px); line-height: 1.45; letter-spacing: -0.01em; margin-top: 14px; }
   .chip--tag { background: var(--white); border: 1px solid var(--line); }
