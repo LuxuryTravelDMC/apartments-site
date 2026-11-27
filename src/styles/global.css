@@ -98,3 +98,5 @@ p { margin: 0; }
   .band { padding: 48px 0; }
 }
 main:has(> .cta:last-child) + footer { margin-top: 0 !important; }
+.ratings a { color: var(--ink); font-weight: 600; text-underline-offset: 4px; }
+.ratings a:hover { color: var(--pine); }
