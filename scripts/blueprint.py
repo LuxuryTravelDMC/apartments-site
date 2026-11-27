@@ -63,6 +63,8 @@ out.append('<g class="bp__shell">'+wall('bp__wall',[(1488,1109,0),(2470,1109,0),
 # bathroom (3)
 t=[box(1774,1367,2094,1487,24), box(2320,1365,2467,1477,12), box(2440,1365,2467,1477,24), box(2172,1112,2467,1353,52,0,'bp__glass')]
 out.append(group(3,t))
+# clickable floor of each room, on top of everything (transparent)
+for k,v in zones.items(): out.append(f'<path class="bp__hit" data-zone="{k}" d="{P([(x,y,0) for x,y in v])}"/>')
 svg=''.join(out)
 nums=[float(n) for n in re.findall(r'-?\d+\.\d',svg)]
 xs=nums[0::2]; ys=nums[1::2]
