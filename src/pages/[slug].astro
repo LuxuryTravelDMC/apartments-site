@@ -73,7 +73,11 @@ const real = s.photos.filter((p) => p.name);
       <div class="label">Τοποθεσία</div>
       <h2 class="head">Πού θα μείνετε</h2>
       <div class="split" style="gap: 40px">
-        <div class="photo main" style="height: 400px" role="img" aria-label="Θέση για χάρτη">Χάρτης: {s.area}, {s.mapQuery}</div>
+        <div class:list={['map', 'main', `map--${s.theme}`]}>
+        <iframe title={`Χάρτης: ${s.title}, ${s.mapQuery}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src={`https://www.google.com/maps?q=${s.geo.lat},${s.geo.lng}&z=16&hl=el&output=embed`}></iframe>
+        <a class="map__open" href={`https://www.google.com/maps/search/?api=1&query=${s.geo.lat},${s.geo.lng}`} target="_blank" rel="noopener">Άνοιγμα στο Google Maps ↗</a>
+      </div>
         <ul class="side near">{s.nearby.map((n) => <li><span>{n.name}</span><span>{n.time}</span></li>)}</ul>
       </div>
     </div>
@@ -176,4 +180,9 @@ const real = s.photos.filter((p) => p.name);
     .gallery { grid-template-columns: 1fr 1fr; grid-template-rows: 220px 140px 140px; }
     .gallery__big { grid-row: span 1; }
   }
+  .map { position: relative; height: 420px; border-radius: var(--radius, 6px); overflow: hidden; background: var(--gray-light); border: 1px solid var(--line); }
+  .map iframe { width: 100%; height: 100%; border: 0; display: block; filter: saturate(.85) sepia(.12); }
+  .map__open { position: absolute; left: 12px; bottom: 12px; padding: 10px 14px; border-radius: 4px; background: var(--bg); color: var(--ink); font-size: 14px; font-weight: 600; text-decoration: none; box-shadow: 0 4px 14px rgb(0 0 0 / .14); }
+  .map__open:hover { background: #fff; }
+  @media (max-width: 700px) { .map { height: 320px; } }
 </style>
