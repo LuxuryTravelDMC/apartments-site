@@ -7,7 +7,7 @@ import ReviewCarousel from '../components/ReviewCarousel.astro';
 import Eagle3D from '../components/Eagle3D.astro';
 import Blueprint from '../components/Blueprint.astro';
 import { site } from '../data/site';
-import { stays, guides, ratings, reviews } from '../data/stays';
+import { stays, guides, ratings, reviews, reviewSources } from '../data/stays';
 const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score && r.stay === place);
 ---
 <Base title={`${site.name} · Διαμερίσματα σε Θεσσαλονίκη και Χαλκιδική`}>
@@ -92,7 +92,11 @@ const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score &
   <section class="wrap section">
     <div class="label">Κριτικές</div>
     <h2 style="margin: 8px 0 12px">Τι λένε οι επισκέπτες</h2>
-    <p class="muted" style="margin-bottom: 32px">{ratings}</p>
+    <p class="muted ratings" style="margin-bottom: 32px">
+      {ratings.map((r, i) => (
+        <span>{i > 0 && ' · '}{r.score} στο {reviewSources[r.src] ? <a href={reviewSources[r.src]} target="_blank" rel="noopener">{r.src} ↗</a> : r.src}{r.count && ` ${r.count}`}</span>
+      ))}
+    </p>
     <ReviewCarousel />
   </section>
 

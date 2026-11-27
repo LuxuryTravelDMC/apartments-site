@@ -147,4 +147,14 @@ export const reviews: { text: string; who: string; stay: string; short?: string;
   { text: 'Είχαμε μια υπέροχη διαμονή και μείναμε πραγματικά ενθουσιασμένοι με όλα. Οι οικοδεσπότες είναι απίστευτα ευγενικοί, φιλόξενοι και εξυπηρετικοί.', who: 'Dmitriy · Google', stay: 'Χαλκιδική',
     short: 'Οι οικοδεσπότες είναι απίστευτα ευγενικοί, φιλόξενοι και εξυπηρετικοί.', name: 'Dmitriy', home: 'Nostos Apartment', score: { n: '5', of: '5', src: 'Google', count: '1 κριτική' } },
 ];
-export const ratings = '10/10 στο Booking.com από 7 κριτικές · [Χ,ΧΧ] στο Airbnb';
+// Where the reviews live. An empty url = not linked yet.
+export const reviewSources: Record<string, string> = {
+  'Booking.com': 'https://www.booking.com/hotel/gr/phoenix-studio-9.html#tab-reviews',
+  Google: 'https://www.google.com/maps/place/Nostos+Apartment+Nea+Moudania/@40.239013,23.2914079,104m/data=!3m1!1e3!4m6!3m5!1s0x14a87d1b471cfe41:0xaf205d1fadec6a54!8m2!3d40.2390307!4d23.2914585!16s%2Fg%2F11nr55fb4j',
+  Airbnb: '', // put the Airbnb listing address here
+};
+// The line under "Τι λένε οι επισκέπτες". Each source name becomes a link.
+export const ratings = [
+  { score: '10/10', src: 'Booking.com', count: 'από 7 κριτικές' },
+  { score: '[Χ,ΧΧ]', src: 'Airbnb', count: '' },
+];

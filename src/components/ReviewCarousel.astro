@@ -3,7 +3,7 @@
 // bigger. Moves by itself every few seconds (stops on hover, on focus and for
 // "reduce motion" users) and has arrows and dots. Works with any number of
 // reviews; with more than three, the rest wait off-stage.
-import { reviews } from '../data/stays';
+import { reviews, reviewSources } from '../data/stays';
 const list = reviews.filter((r) => !r.text.startsWith('['));
 ---
 <div class="rc" data-rc aria-roledescription="carousel" aria-label="Κριτικές επισκεπτών">
@@ -12,7 +12,11 @@ const list = reviews.filter((r) => !r.text.startsWith('['));
       <figure class="rc__card" data-i={i} aria-roledescription="slide" aria-label={`${i + 1} από ${list.length}`}>
         <div class="rc__stars" aria-hidden="true">★★★★★</div>
         <blockquote>{r.text}</blockquote>
-        <figcaption>{r.who} · {r.stay}</figcaption>
+        <figcaption>
+          {r.who.split(' · ').map((part, j) => (
+            <>{j > 0 && ' · '}{j > 0 && reviewSources[part] ? <a href={reviewSources[part]} target="_blank" rel="noopener">{part} ↗</a> : part}</>
+          ))} · {r.stay}
+        </figcaption>
       </figure>
     ))}
   </div>
@@ -77,6 +81,8 @@ const list = reviews.filter((r) => !r.text.startsWith('['));
   .rc__stars { color: var(--coral); letter-spacing: 2px; }
   .rc blockquote { margin: 12px 0; font: 19px/1.45 var(--serif); }
   .rc figcaption { font-size: 14px; color: var(--ink-2); }
+  .rc figcaption a { color: var(--ink-2); text-underline-offset: 3px; }
+  .rc figcaption a:hover { color: var(--pine); }
   .rc__nav { display: flex; align-items: center; justify-content: center; gap: 20px; margin-top: 28px; }
   .rc__btn { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--gray-warm); background: var(--white); color: var(--ink); font-size: 18px; cursor: pointer; }
   .rc__btn:hover { border-color: var(--pine); color: var(--pine); }
