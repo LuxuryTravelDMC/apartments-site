@@ -24,7 +24,7 @@ const names = Object.fromEntries(stays.map((s) => [s.slug, s.title]));
     <label class="field">Άφιξη <input type="date" name="from" required /></label>
     <label class="field">Αναχώρηση <input type="date" name="to" required /></label>
   </div>
-  <label class="field">Άτομα <input type="number" name="guests" value="2" min="1" max="12" /></label>
+  <label class="field">Άτομα <select name="guests"><option value="1">1 άτομο</option><option value="2" selected>2 άτομα</option><option value="3">3 άτομα</option></select></label>
   <button class:list={['btn', stay?.theme === 'city' && 'btn--honey']} type="submit">
     {stay ? 'Έλεγχος διαθεσιμότητας' : 'Δείτε διαθεσιμότητα'}
   </button>
