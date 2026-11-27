@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import StayCard from '../components/StayCard.astro';
 import BookingBox from '../components/BookingBox.astro';
 import Photo from '../components/Photo.astro';
 import ReviewCarousel from '../components/ReviewCarousel.astro';
@@ -70,12 +69,6 @@ const reviewsFor = (place: string) => reviews.filter((r) => r.short && r.score &
       </div>
     </div>
     <BookingBox layout="bar" />
-  </section>
-
-  <section id="stays" class="wrap section">
-    <div class="label">Δύο διαμερίσματα</div>
-    <h2 class="head big">Τα σπίτια<sup>(2)</sup></h2>
-    <div class="stays">{stays.map((s) => <StayCard stay={s} />)}</div>
   </section>
 
   <section class="band band--gray">
