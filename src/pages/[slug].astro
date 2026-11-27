@@ -87,10 +87,10 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
     <div class="label">Τοποθεσία</div>
     <h2 class="head" style="font-size: clamp(40px, 5vw, 64px)">Πού θα μείνετε</h2>
     <div class="split" style="gap: 40px">
-      <div class:list={['mapph', 'main', `mapph--${s.theme}`]} role="img" aria-label={`Θέση για χάρτη: ${s.area}, ${s.place}`}>
-        <span class="mapph__tag">/Χάρτης</span>
-        <span class="mapph__pin"></span>
-        <span class="mapph__name">{s.area}</span>
+      <div class:list={['map', 'main', `map--${s.theme}`]}>
+        <iframe title={`Χάρτης: ${s.title}, ${s.mapQuery}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src={`https://www.google.com/maps?q=${s.geo.lat},${s.geo.lng}&z=16&hl=el&output=embed`}></iframe>
+        <a class="map__open" href={`https://www.google.com/maps/search/?api=1&query=${s.geo.lat},${s.geo.lng}`} target="_blank" rel="noopener">Άνοιγμα στο Google Maps ↗</a>
       </div>
       <table class="side spec near">
         <tbody>{s.nearby.map((n, i) => <tr><td class="num">{pad(i)}</td><th scope="row">{n.name}</th><td class="near__d">{n.time}</td></tr>)}</tbody>
@@ -200,4 +200,9 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
     .gallery__all { bottom: auto; top: 200px; }
     .mapph { height: 300px; }
   }
+  .map { position: relative; height: 420px; border-radius: var(--radius, 6px); overflow: hidden; background: var(--gray-light); border: 1px solid var(--line); }
+  .map iframe { width: 100%; height: 100%; border: 0; display: block; filter: saturate(.85) sepia(.12); }
+  .map__open { position: absolute; left: 12px; bottom: 12px; padding: 10px 14px; border-radius: 4px; background: var(--bg); color: var(--ink); font-size: 14px; font-weight: 600; text-decoration: none; box-shadow: 0 4px 14px rgb(0 0 0 / .14); }
+  .map__open:hover { background: #fff; }
+  @media (max-width: 700px) { .map { height: 320px; } }
 </style>
