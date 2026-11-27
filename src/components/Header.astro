@@ -10,7 +10,7 @@ const here = Astro.url.pathname.replace(/\.html$/, '');
   <div class="wrap top__in">
     <a class="top__logo" href="/">
       <EagleMark class="top__mark" />
-      {site.name}
+      <span data-brand>{site.name}</span>
     </a>
     <nav aria-label="Κύριο μενού" class="top__nav" id="main-nav">
       {nav.map((n) => <a href={n.href} aria-current={n.href === here ? 'page' : undefined}>{n.label}</a>)}

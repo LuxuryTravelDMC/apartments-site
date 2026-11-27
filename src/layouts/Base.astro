@@ -35,6 +35,18 @@ const canonical = new URL(Astro.url.pathname.replace(/\.html$/, '').replace(/\/$
     <meta property="og:url" content={canonical} />
   </head>
   <body data-theme={theme}>
+    <script is:inline define:vars={{ real: site.name }}>
+      // Name test: /?brand=Folia shows the whole site under another name (this tab only).
+      try {
+        const q = new URLSearchParams(location.search);
+        if (q.has('brand')) { const b = q.get('brand'); b ? sessionStorage.setItem('brand', b) : sessionStorage.removeItem('brand'); }
+        const b = sessionStorage.getItem('brand');
+        if (b) {
+          const swap = () => { document.querySelectorAll('[data-brand]').forEach((el) => (el.textContent = b)); document.title = document.title.split(real).join(b); };
+          document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', swap) : swap();
+        }
+      } catch (e) {}
+    </script>
     <a class="skip-link" href="#main">Μετάβαση στο περιεχόμενο</a>
     <Header theme={theme} />
     <main id="main"><slot /></main>

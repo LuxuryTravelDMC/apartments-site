@@ -1,0 +1,62 @@
+---
+// Name test page: the shortlisted names side by side, in context.
+// Not in the menu; open /names. Each card links to the whole site under that name.
+import Base from '../layouts/Base.astro';
+import EagleMark from '../components/EagleMark.astro';
+import Photo from '../components/Photo.astro';
+import { site } from '../data/site';
+
+const names = [
+  { name: 'Folia', gr: 'Φωλιά', idea: 'Η φωλιά: το πιο ζεστό και σίγουρο σπίτι. Ταιριάζει με το πουλί του λογότυπου.', line: 'Your nest in Thessaloniki & Chalkidiki', note: '' },
+  { name: 'Elia', gr: 'Ελιά', idea: 'Η ελιά: ελληνικό καλοκαίρι, ειρήνη, ρίζες.', line: 'Olive-tree calm, by the city and the sea', note: 'Πολύ συνηθισμένο όνομα σε καταλύματα.' },
+  { name: 'Athena', gr: 'Αθηνά', idea: 'Η θεά της σοφίας και προστάτιδα: σιγουριά και κύρος.', line: 'Thoughtful stays in Thessaloniki & Chalkidiki', note: 'Στα ελληνικά «Αθηνά» = και η Αθήνα: ο ξένος μπορεί να νομίσει ότι είστε στην Αθήνα.' },
+  { name: 'Estia', gr: 'Εστία', idea: 'Η εστία του σπιτιού: φιλοξενία και θαλπωρή.', line: 'Cozy stays in Thessaloniki & Chalkidiki', note: 'Υπάρχει ήδη «Estia Premium Apartments» στο κέντρο της Θεσσαλονίκης.' },
+];
+---
+<Base title={`Δοκιμή ονομάτων · ${site.name}`}>
+  <section class="wrap" style="padding-top: 48px">
+    <div class="label">Δοκιμή ονόματος</div>
+    <h1 class="nt__h">Ποιο σας μοιάζει;</h1>
+    <p class="nt__p">Τέσσερα ονόματα στη θέση τους: μενού, hero, κάρτα. Πατήστε «Δείτε όλο το site» για να περιηγηθείτε με το όνομα (μόνο σε αυτή την καρτέλα).</p>
+    <div class="nt">
+      {names.map((n) => (
+        <article class="nt__card">
+          <div class="nt__bar"><EagleMark size={28} /><b>{n.name}</b><span>Τα καταλύματα · Οδηγοί · Επικοινωνία</span></div>
+          <div class="nt__hero">
+            <Photo name={site.heroPhoto} alt="" sizes="(max-width: 700px) 100vw, 640px" />
+            <div class="nt__over"><strong>{n.name}</strong><span>{n.line}</span></div>
+          </div>
+          <div class="nt__foot">
+            <div class="nt__biz"><EagleMark size={34} /><div><b>{n.name}</b><small>{n.gr} · Θεσσαλονίκη · Χαλκιδική</small></div></div>
+            <p class="nt__idea">{n.idea}</p>
+            {n.note && <p class="nt__note">⚠ {n.note}</p>}
+            <a class="btn btn--ghost" href={`/?brand=${n.name}`}>Δείτε όλο το site ως {n.name} →</a>
+          </div>
+        </article>
+      ))}
+    </div>
+    <p class="nt__p" style="margin-top: 32px"><a href="/?brand=">Επαναφορά στο {site.name}</a></p>
+  </section>
+</Base>
+<style>
+  .nt__h { font-size: clamp(44px, 6vw, 88px); letter-spacing: -0.04em; line-height: .95; margin: 12px 0 14px; }
+  .nt__p { color: var(--ink-2); max-width: 46em; }
+  .nt { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; margin-top: 36px; }
+  .nt__card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgb(54 48 43 / .1); display: flex; flex-direction: column; }
+  .nt__bar { display: flex; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+  .nt__bar b { font-size: 21px; letter-spacing: -0.03em; }
+  .nt__bar span { margin-left: auto; font-size: 12px; color: var(--ink-2); }
+  .nt__hero { position: relative; height: 240px; }
+  .nt__hero :global(img) { height: 100%; border-radius: 0; }
+  .nt__over { position: absolute; inset: auto 0 0 0; padding: 60px 22px 20px; background: linear-gradient(transparent, rgb(30 26 22 / .7)); color: #fff; display: flex; flex-direction: column; gap: 4px; }
+  .nt__over strong { font-size: 54px; line-height: 1; letter-spacing: -0.04em; }
+  .nt__over span { font-size: 15px; opacity: .92; }
+  .nt__foot { padding: 20px 22px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+  .nt__foot .btn { margin-top: auto; align-self: flex-start; }
+  .nt__biz { display: flex; gap: 12px; align-items: center; padding: 14px 16px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); width: max-content; max-width: 100%; }
+  .nt__biz b { display: block; font-size: 19px; letter-spacing: -0.02em; }
+  .nt__biz small { color: var(--ink-2); font-size: 12px; }
+  .nt__idea { margin: 0; }
+  .nt__note { margin: 0; font-size: 14px; color: var(--coral); }
+  @media (max-width: 800px) { .nt { grid-template-columns: 1fr; } .nt__bar span { display: none; } }
+</style>

@@ -6,7 +6,7 @@ import { stays } from '../data/stays';
 <footer id="contact" class="foot">
   <div class="wrap foot__grid">
     <div>
-      <div class="foot__logo"><EagleMark size={36} />{site.name}</div>
+      <div class="foot__logo"><EagleMark size={36} /><span data-brand>{site.name}</span></div>
       <p class="foot__soft">{stays.map((s) => s.place).join(' · ')}</p>
     </div>
     <div>
@@ -23,7 +23,7 @@ import { stays } from '../data/stays';
       {stays.map((s) => <div>ΑΜΑ {s.place}: {s.ama}</div>)}
     </div>
   </div>
-  <div class="wrap foot__bottom">© {new Date().getFullYear()} {site.name}</div>
+  <div class="wrap foot__bottom">© {new Date().getFullYear()} <span data-brand>{site.name}</span></div>
 </footer>
 <style>
   .foot { background: var(--ink); color: var(--white); margin-top: var(--section); font-size: 15px; }
